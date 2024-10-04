@@ -1,0 +1,29 @@
+<h1
+  mat-dialog-title
+  class="text-black text-base font-semibold font-['Monstrate'] capitalize leading-tight"
+>
+  Add New Category Type
+</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <!-- <mat-label>Add New Category Type</mat-label> -->
+    <input matInput [(ngModel)]="newName" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-button
+    class="text-black text-base font-semibold font-['Monstrate'] capitalize leading-tight"
+    (click)="onCancel()"
+  >
+    Cancel
+  </button>
+  <button
+    mat-button
+    class="text-black text-base font-semibold font-['Monstrate'] capitalize leading-tight"
+    color="primary"
+    (click)="onAdd()"
+  >
+    Add
+  </button>
+</div>

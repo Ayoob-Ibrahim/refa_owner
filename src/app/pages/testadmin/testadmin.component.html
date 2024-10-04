@@ -1,0 +1,8 @@
+<ng-container>
+  <ng-container
+    *ngTemplateOutlet="myTemplate; context: { name: 'dynamicName' }"
+  >
+  </ng-container>
+
+  <ng-template #myTemplate let-name="name"> Hello,{{ name }} </ng-template>
+</ng-container>

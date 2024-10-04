@@ -1,0 +1,116 @@
+<aside
+  class="bg-white-800 flex-shrink-0 h-screen border-blue-900"
+  [class.w-[160px]]="isExpand == true"
+  [class.w-[40px]]="isExpand != true"
+  [ngClass]="direction == 'en' ? 'border-r ' : 'border-l'"
+>
+  <img
+    class="{{ isExpand ? 'p-4' : 'pt-4 pb-4' }} ml-2"
+    src="../../../assets/images/sidebar/{{
+      !isExpand ? 'Home-sm' : 'logo'
+    }}.png"
+  />
+  <div>
+    <div
+      (click)="languagecontrol()"
+      class="text-blue-900 text-[15px] font-semibold font-Monstrate leading-normal flex justify-start items-center ml-2 mt-2"
+    >
+      <!-- <img
+        id="hand_shake"
+        class="mr-2 image-hand-shake"
+        src="../../../assets/images/sidebar/Wave.png"
+      /> -->
+      <div
+        class="{{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }} px-[20px]"
+        *ngIf="isExpand"
+      >
+        {{ "welcome" | translate }}<br />{{ username.toUpperCase() }}
+      </div>
+    </div>
+    <div
+      class="capsule-lang    {{
+        cur_lang == 'en' ? 'font-Bukrasm' : ' font-Monstrate'
+      }}"
+      (click)="languagecontrol()"
+    >
+      <!-- <div class="left" [ngClass]="{ 'selected-lang': cur_lang === 'en' }">
+        EN
+      </div>
+      <div
+        class="font-Bukrasm text-center"
+        [ngClass]="{ 'selected-lang': cur_lang === 'ar' }"
+      >
+        عربي
+      </div> -->
+      {{ cur_lang == "en" ? "عربي" : "En" }}
+    </div>
+    <div class="list-menu-items-class">
+      <div class="mt-2">
+        <div
+          [routerLink]="[d.path]"
+          (click)="navigatePage(d.path)"
+          class="text-blue-900 text-[10px] font-extrabold {{
+            direction == 'en' ? 'font-Monstrate' : 'font-Bukra'
+          }}  uppercase flex cursor-pointer justify-between items-center scrollable-container"
+          *ngFor="let d of menuList"
+        >
+          <div class="flex items-center ml-[10px]">
+            <img
+              src="../../../assets/images/sidebar/{{ d.icon }}.png"
+              class="mr-2"
+            />
+            <div *ngIf="isExpand" class="mr-[10px]">
+              {{ d.name | translate }}
+            </div>
+          </div>
+          <div
+            [style]="direction == 'en' ? ' rotate: 0deg;' : ' rotate: 180deg;'"
+          >
+            <svg width="15" height="50">
+              <path
+                routerLinkActive="active-style"
+                d="M 15 0 C 13,12, 2,10, 1,25 C 2,40, 13,38, 15,50 M 0 50 M 0 0"
+                stroke="none"
+                fill="#fff"
+              />
+              <circle cx="8.5" cy="25" r="3" fill="white" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div
+        (click)="Logout()"
+        class="text-blue-900 text-[10px] cursor-pointer font-extrabold  {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukra'
+        }} uppercase flex justify-between items-center scrollable-container"
+      >
+        <div class="flex items-center ml-[10px]">
+          <img src="../../../assets/images/sidebar/Logout.png" class="mr-2" />
+          <div class="mr-[10px]" *ngIf="isExpand">
+            {{ "logout" | translate }}
+          </div>
+        </div>
+        <svg width="15" height="50">
+          <path
+            routerLinkActive="active-style"
+            d="M 15 0 C 13,12, 2,10, 1,25 C 2,40, 13,38, 15,50 M 0 50 M 0 0"
+            stroke="none"
+            fill="#fff"
+          />
+          <circle cx="8.5" cy="25" r="3" fill="white" />
+        </svg>
+      </div>
+    </div>
+    <div
+      *ngIf="false"
+      (click)="expand()"
+      [ngClass]="direction == 'en' ? 'left-5' : 'right-5'"
+      class="absolute bottom-8  {{ isExpand == false ? 'rotate-180	' : '' }}"
+    >
+      <img src="../../../assets/images/sidebar/Back.png" alt="" />
+    </div>
+  </div>
+</aside>

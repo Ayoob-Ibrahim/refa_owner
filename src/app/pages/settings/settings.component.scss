@@ -1,0 +1,271 @@
+button {
+  padding: 5px 10px 5px 10px !important;
+}
+
+.notification {
+  .noti-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 19px;
+    text-align: left;
+  }
+
+  .noti-content {
+    font-family: Monstrate;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 19px;
+    text-align: left;
+    margin-top: 10pxs;
+  }
+}
+ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+li {
+  margin: 5px 0;
+}
+.dot_ {
+  height: 14px;
+  width: 14px;
+  z-index: 117;
+  border-radius: 50%;
+  background-color: #0c1892;
+  display: inline-block;
+  //   margin-top: 8px;
+  /* margin-right: 10px; */
+  position: relative;
+  right: 27px;
+  bottom: 8px;
+}
+
+.class-btn {
+  .btn-group button {
+    border: 1px solid var(--refatheme);
+    color: white;
+    padding: 10px 24px;
+    cursor: pointer;
+    float: left;
+    border-radius: 0% !important;
+    margin: 0;
+    width: 33%;
+    height: 40px;
+    font-family: Monstrate;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 19px;
+    text-align: center;
+  }
+
+  .btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .btn-group button:not(:last-child) {
+    border-right: none;
+  }
+
+  /* Add a background color on hover */
+  .btn-group button:hover {
+    background-color: #3e8e41;
+  }
+}
+
+.back-color-selected {
+  background-color: var(--refatheme) !important;
+  color: white !important;
+}
+
+.back-color-unselected {
+  background-color: white !important;
+  color: var(--refatheme) !important;
+}
+
+.proflie-container {
+  .profile-title {
+    height: 8vh;
+    position: relative;
+
+    .closeModal_X {
+      position: absolute;
+      top: 0px;
+      //  right: 20px;
+      font-size: 1rem;
+      z-index: 100;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+  .closeModal_X {
+    position: absolute;
+    top: 0px;
+    //  right: 20px;
+    font-size: 1rem;
+    z-index: 100;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .profile-title p {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24.38px;
+    //  text-align: left;
+  }
+
+  .profile-information-form {
+    height: 65vh;
+    overflow-y: auto;
+
+    .agency-name-address {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 18.29px;
+      //  text-align: left;
+      margin: 0.5% 0%;
+    }
+
+    //  button {
+    //      all: unset !important;
+    //      cursor:  pointer !important;
+    //      font-family: Monstrate !important;
+    //  }
+    .capitalize {
+      text-decoration: underline;
+    }
+
+    .capitalize:hover {
+      cursor: pointer;
+    }
+
+    .small {
+      font-family: Monstrate;
+      font-size: 8px;
+      font-weight: 400;
+      line-height: 9.75px;
+    }
+
+    .agent-assessment-form {
+      padding: 0.3rem;
+      display: flex;
+      flex-direction: column;
+
+      .agent-assessment-input {
+        width: 90%;
+        font-family: Monstrate;
+        height: 2rem;
+        background-color: #ffffff;
+        border-radius: 0 !important;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #0c1892;
+        outline: none;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        display: block;
+      }
+
+      .agent-assessment-input-label {
+        font-size: 13px;
+        color: var(--refatheme);
+        font-weight: 500;
+        line-height: 15.85px;
+        //  text-align: left;
+      }
+
+      label {
+        font-size: 12px !important;
+        margin: 0.5rem;
+      }
+    }
+
+    .pl-6 {
+      .class-button {
+        width: 100px;
+        border-radius: 0 !important;
+      }
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #aaaaaa;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #aaaaaa;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.bottom-margin {
+  margin-bottom: 20px;
+}
+
+.border-invalid {
+  border: 1px solid red !important;
+}
+
+.payment-template {
+  .w-full {
+    .bi {
+      position: absolute;
+      cursor: pointer;
+      right: 50%;
+      color: white;
+    }
+
+    .bi-cloud-upload-fill {
+      right: 30%;
+      color: white;
+    }
+  }
+
+  .inputclass {
+    width: 60%;
+    height: 30px;
+    margin-right: 3%;
+  }
+
+  .inputdisabled {
+    background-color: #e5e7eb;
+  }
+}
+
+.info-span {
+  position: absolute;
+  right: 65px;
+  top: 27px;
+
+  i {
+    font-size: 18px;
+    color: red;
+  }
+}

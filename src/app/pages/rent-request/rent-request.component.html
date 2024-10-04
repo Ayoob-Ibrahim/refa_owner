@@ -1,0 +1,936 @@
+<div class="container mx-auto py-4">
+  <p-toast />
+  <ng-container *ngTemplateOutlet="rent_request_page"></ng-container>
+</div>
+
+<ng-template #rent_request_page>
+  <ng-container *ngTemplateOutlet="rent_request_title"></ng-container>
+  <ng-container *ngTemplateOutlet="rent_request_container"></ng-container>
+</ng-template>
+
+<ng-template #rent_request_title>
+  <ng-container *ngIf="abcd_grid_show; else formtitle">
+    <ng-container
+      *ngTemplateOutlet="
+        request_header_list;
+        context: { valueToPass: headerMenu.list }
+      "
+    ></ng-container>
+  </ng-container>
+  <ng-template #formtitle>
+    <ng-container
+      *ngTemplateOutlet="
+        request_header_list;
+        context: { valueToPass: headerMenu.form }
+      "
+    ></ng-container>
+  </ng-template>
+</ng-template>
+
+<ng-template #request_header_list let-item="valueToPass">
+  <div class="flex">
+    <div
+      *ngFor="let a of item; let i = index"
+      (click)="selectedIndex.set(i)"
+      class="text-center text-black text-[13px] font-bold {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} uppercase w-[17%] mr-3 pb-[5px] cursor-pointer
+        {{
+        i === selectedIndex()
+          ? 'border-b-2 border-blue-900'
+          : 'border-b border-black'
+      }}"
+    >
+      {{ a.name | translate }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #rent_request_container>
+  <div class="req-container-without-scroll">
+    <!-- <span
+      *ngIf="!abcd_grid_show"
+      class="closeModal_X"
+      title="Close"
+      (click)="closeform()"
+      [style]="direction == 'ar' ? 'right: 10px;top:7px' : 'left:10px;top:7px'"
+    >
+      <i
+        class="bi {{
+          direction == 'en' ? ' bi-arrow-left' : ' bi-arrow-right'
+        }} text-[25px]"
+      ></i
+    ></span> -->
+    <ng-container *ngIf="!abcd_grid_show">
+      <ng-container *ngTemplateOutlet="back_arrow_blue"> </ng-container>
+    </ng-container>
+    <ng-template #back_arrow_blue>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_blue'"
+      ></app-svg-component>
+    </ng-template>
+
+    <ng-template #back_arrow_black>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_black'"
+      ></app-svg-component>
+    </ng-template>
+    <!-- border border-blue-900 -->
+    <div
+      class="h-[79vh] w-[100%] mt-2 overflow-y-auto rent-request-container"
+      [ngClass]="{ ' border border-blue-900': !abcd_grid_show }"
+    >
+      <ng-container
+        *ngIf="abcd_grid_show; then grid_with_ft; else rent_request_form"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #grid_with_ft>
+  <ng-container *ngTemplateOutlet="server_ft_bar"></ng-container>
+  @if (0=== selectedIndex()){
+  <ng-container
+    *ngTemplateOutlet="abcd_grid; context: { valueToPass: abcd_grid_wr }"
+  ></ng-container>
+  } @else if (1=== selectedIndex()) {
+  <ng-container
+    *ngTemplateOutlet="abcd_grid; context: { valueToPass: abcd_grid_wr }"
+  ></ng-container>
+  } @else if (2=== selectedIndex()) {
+  <ng-container
+    *ngTemplateOutlet="abcd_grid; context: { valueToPass: abcd_grid_wr }"
+  ></ng-container>
+  }
+</ng-template>
+
+<ng-template #rent_request_form>
+  <div class="p-10">
+    <div class="grid grid-cols-2 gap-4">
+      <ng-container
+        *ngTemplateOutlet="
+          tenant_card_profile;
+          context: { valueToPass: 'tenant_details' }
+        "
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="
+          owner_card_profile;
+          context: { valueToPass: 'owner_detail' }
+        "
+      ></ng-container>
+    </div>
+    <div>
+      <ng-container *ngTemplateOutlet="rent_property_information">
+      </ng-container>
+    </div>
+    <div>
+      <ng-container *ngTemplateOutlet="financial_assessment"> </ng-container>
+    </div>
+
+    <ng-container *ngTemplateOutlet="inner_grid"> </ng-container>
+    <div>
+      <ng-container *ngIf="data_value?.status_sub == 4">
+        <ng-container *ngTemplateOutlet="rent_request_approval_button">
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
+<ng-template #inner_grid>
+  <ng-container *ngIf="0 === selectedIndex()">
+    <app-dc-component
+      [whereCondition]="innerGrid_wr"
+      [GridInfo]="GridInfo.fullgrid"
+      [loader]="true"
+    >
+    </app-dc-component>
+  </ng-container>
+</ng-template>
+<ng-template #tenant_card_profile let-data="valueToPass">
+  <div class="p-4">
+    <div
+      class="form-header {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+    >
+      {{ data | translate }}
+    </div>
+    <div class="form-header-profile pt-4">
+      <div
+        class="p-2"
+        style="display: flex; justify-content: space-around; width: 90%"
+      >
+      <!-- xyz -->
+        <div class="px-8">
+          <img 
+            [src]="
+              data_value?.tenant_pic || '../../../assets/dummy_dp/dp_dummy.jpg'
+            "
+            alt="Description of the image"
+          />
+        </div>
+
+        <div class="personal-info-card">
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[89px]'
+                  : 'font-Bukrasm   w-[140px]'
+              }}"
+            >
+              {{ "name" | translate }} :
+            </p>
+            <p class="personal-info-font-result px-2">
+              {{ data_value?.tenant_name }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[89px]'
+                  : 'font-Bukrasm   w-[140px]'
+              }}"
+            >
+              {{ "mobile" | translate }} :
+            </p>
+            <p class="personal-info-font-result px-2" dir="ltr">
+              {{ data_value?.tenant_mobile }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[89px]'
+                  : 'font-Bukrasm   w-[89px]'
+              }}"
+            >
+              {{ "email" | translate }} :
+            </p>
+            <p class="personal-info-font-result px-4">
+              {{ data_value?.tenant_email }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[89px]'
+                  : 'font-Bukrasm text-right  w-[140px]'
+              }}"
+            >
+              {{ "location" | translate }} :
+            </p>
+            <p class="personal-info-font-result px-2">
+              {{ data_value?.tenant_cityname }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #owner_card_profile let-data="valueToPass">
+  <div class="p-4">
+    <div
+      class="form-header {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+    >
+      {{ data | translate }}
+    </div>
+    <div class="form-header-profile pt-4">
+      <div
+        class="p-2"
+        style="display: flex; justify-content: space-around; width: 90%"
+      >
+      <!-- xyz -->
+        <div>
+          <img
+            [src]="
+              data_value?.owner_pic || '../../../assets/dummy_dp/dp_dummy.jpg'
+            "
+            alt="Description of the image"
+          />
+        </div>
+
+        <div class="personal-info-card">
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[89px]'
+                  : 'font-Bukrasm text-right  w-[140px]'
+              }}"
+            >
+              {{ "name" | translate }} :
+            </p>
+            <p class="personal-info-font-result px-2">
+              {{ data_value?.owner_name }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[89px]'
+                  : 'font-Bukrasm text-right  w-[140px]'
+              }}"
+            >
+              {{ "mobile" | translate }} :
+            </p>
+            <p class="personal-info-font-result px-2">
+              {{ data_value?.owner_mobile }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[89px]'
+                  : 'font-Bukrasm text-right  w-[89px]'
+              }}"
+            >
+              {{ "email" | translate }} :
+            </p>
+            <p class="personal-info-font-result px-4">
+              {{ data_value?.owner_email }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[89px]'
+                  : 'font-Bukrasm text-right  w-[140px]'
+              }}"
+            >
+              {{ "location" | translate }} :
+            </p>
+            <p class="personal-info-font-result px-2">
+              {{ data_value?.owner_cityname }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #rent_property_information>
+  <div class="property_information ps-5">
+    <div
+      class="form-header {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+    >
+      {{ "propertyInformation" | translate }}
+    </div>
+    <div class="flex">
+      <div class="w-full">
+        <div class="property-information flex">
+          <div
+            class="w-1/4 p-1"
+            style="display: flex; justify-content: space-between"
+          >
+            <div>
+              <img [src]="data_value?.property_image_manip" />
+            </div>
+          </div>
+          <div class="w-3/4 pt-[2rem] ps-5">
+            <div>
+              <p
+                class="{{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }} proper-info-title me-3"
+              >
+                {{ "building" | translate }} :
+              </p>
+              <p class="font-['Monstrate'] proper-info-answer ps-2">
+                {{ data_value?.details }}
+              </p>
+            </div>
+            <div>
+              <p
+                class="{{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }} proper-info-title me-3"
+              >
+                {{ "address" | translate }} :
+              </p>
+              <p class="font-['Monstrate'] proper-info-answer ps-2">
+                {{ data_value?.address }}
+              </p>
+            </div>
+            <div>
+              <p
+                class="{{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }} proper-info-title me-3"
+              >
+                {{ "annualRent" | translate }} :
+              </p>
+              <p class="font-['Monstrate'] proper-info-answer ps-2">
+                {{ data_value?.rent + " " + "SAR" }}
+              </p>
+            </div>
+            <div>
+              <p
+                class="{{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }} proper-info-title me-3"
+              >
+                {{ "depositAmount"| translate }}
+              </p>
+              <p class="font-['Monstrate'] proper-info-answer ps-2">
+                {{ data_value?.deposit + " " + "SAR" }}
+              </p>
+            </div>
+            <div *ngIf="false">
+              <p
+                class="{{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }} proper-info-title me-3"
+              >
+                BHK type:
+              </p>
+              <p class="font-['Monstrate'] proper-info-answer">
+                {{ data_value?.bhk }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #financial_assessment>
+  <div class="p-4 pt-20">
+    <div
+      class="form-header {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+    >
+      {{ "Financial Assessment" | translate }}
+    </div>
+  </div>
+  <div class="p-4">
+    <div class="flex">
+      <div class="w-1/3 border-r border-gray-400 border-solid">
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "name" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.tenant_name"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "mobile" | translate }}
+          </div>
+          <input
+            dir="ltr"
+            name="username"
+            class="financial-assessment-input {{
+              direction == 'en' ? '' : 'text-right'
+            }}"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.tenant_mobile"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "email" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.tenant_email"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "location" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.tenant_cityname"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "dob" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.dob"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "nationality" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.nationality"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "no_of_members" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.family_members"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "national_id" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.nationalid"
+          />
+        </div>
+      </div>
+      <div
+        class="w-1/3 border-r border-gray-400 border-solid"
+        style="margin-left: 2%"
+      >
+        <div
+          class="mt-2 ms-2 mb-2 radio-class"
+          *ngIf="data_value?.salary_type != undefined"
+        >
+          <input
+            [attr.disabled]="true"
+            type="radio"
+            [value]="true"
+            id="Salaried"
+            [(ngModel)]="data_value.salary_type"
+          /><label
+            class="{{ direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm' }}"
+            for="Salaried"
+            >{{ "Salaried" | translate }}</label
+          >
+          <input
+            [attr.disabled]="true"
+            type="radio"
+            [value]="false"
+            id="non-salaried"
+            [(ngModel)]="data_value.salary_type"
+          />
+          <label
+            class="{{ direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm' }}"
+            for="non-salaried"
+            >{{ "Non Salaried" | translate }}</label
+          >
+        </div>
+
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "current_job" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.current_work"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "job_start_date" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.work_startdate"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "name_of_working_place" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.working_place"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "job_sector" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.jobsector"
+          />
+        </div>
+        <div
+          class="download-btn font-Monstrate"
+          (click)="data_value?.docs_manipulated==''?null: doc_download(data_value?.docs_manipulated, 'sub sector')"
+        >
+          <!-- {{data_value?.docs_manipulated}} -->
+         {{  ( data_value?.docs_manipulated==''? "No Income Certificate": "income_certificate")| translate }}
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "sub_sector" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.sub_jobsector"
+          />
+        </div>
+        <!-- <div class="download-btn" (click)="doc_download(data_value?.docs_manipulated,'sub sector')">
+                    {{data_value?.docs_manipulated}}
+                </div> -->
+        <div
+          class="financial-assessment-form mt-5"
+          *ngIf="data_value?.existing_debts != undefined"
+        >
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "existing_debts" | translate }}
+          </div>
+          <div class="mt-2 ms-2">
+            <input
+              [attr.disabled]="true"
+              type="radio"
+              [value]="true"
+              [(ngModel)]="data_value.existing_debts"
+            /><label
+              class="{{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+              }}"
+              >{{ "yes" | translate }}</label
+            >
+            <input
+              [attr.disabled]="true"
+              type="radio"
+              [value]="false"
+              [(ngModel)]="data_value.existing_debts"
+            /><label
+              class="{{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+              }}"
+              >{{ "no" | translate }}</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="w-1/3" style="margin-left: 2%">
+        <!-- <div class="financial-assessment-form">
+          <div class="financial-assessment-input-label">
+            {{ "credit_score" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_value?.creditscore"
+          />
+        </div> -->
+        <div
+          class="download-btn font-Monstrate"
+          (click)="doc_download(data_value?.proof_manipulated, 'Proof Doc')"
+        >
+          <!-- {{data_value?.proof_manipulated}} -->
+          {{"credit_score_document1"|translate}}
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "rent_amount" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [attr.disabled]="true"
+            [value]="data_value?.rent"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "monthly_income" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [attr.disabled]="true"
+            [value]="data_value?.monthly_income"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "expected_monthly_expenses" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [attr.disabled]="true"
+            [value]="data_value?.monthly_expenses"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "no_of_installments" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [attr.disabled]="true"
+            [value]="data_value?.installments"
+          />
+        </div>
+        <!-- <div class="financial-assessment-form mt-5">
+                    <div class="financial-assessment-input-label">
+                        Do you have any existing debts?
+                    </div>
+                    <div class="mt-2 ms-2">
+                        <input type="radio" required><label>Yes</label>
+                        <input type="radio" required><label>No</label>
+                    </div>
+                </div> -->
+        <div
+          class="emi-display"
+          [style]="
+            direction != 'ar' ? 'padding-left: 10%;' : 'padding-right: 5%'
+          "
+        >
+          <p class="p-4   {{
+           direction == 'en' ? 'font-Monstrate' :'font-Bukrareg'
+            }}  "  >
+            {{ "monthly_emi" | translate }}  {{ data_value?.calculatedEmi }} SAR
+          </p>
+        </div>
+        <div *ngIf="rent_rev" class="financial-assessment-form mt-3">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "down_payment" | translate }} (SAR)
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            #downpayment
+            [(ngModel)]="down_payemnt"
+            appOnlyNumbers
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #rent_request_approval_button>
+  <div class="text-right">
+    <button
+      *ngIf="!rent_rev"
+      class=" class-button {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+      (click)="openRejectModal(5, 5, data_value, 'rejected')"
+    >
+    {{"reject"|translate}}
+    </button>
+    <button
+      class=" class-button {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+      (click)="rent_rev = !rent_rev"
+    >
+      {{ (rent_rev ? "cancel" : "revise_rent")|translate }}
+    </button>
+    <button
+      class="approve-btn {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} class-button approve-btn"
+      (click)="
+        admin_rent_dec(6, 10, data_value, 'approved#revised', down_payemnt)
+      "
+    >
+      {{"approve"|translate}}
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #server_ft_bar>
+  <div
+   
+    class="w-[414px] h-[42px] bg-white border border-blue-900 mb-2 flex justify-between"
+  >
+    <div
+      class="w-[50px] h-10 bg-white border-r-[1px] border-b-0 border-l-[1px] border-blue-900 flex justify-center items-center"
+    >
+      <img src="../../../assets/images/filter/Icon.png" alt="" />
+    </div>
+
+    <input
+      type="text"
+      class="border focus:border-transparent focus:outline-none w-[390px]  px-2
+      {{
+        direction == 'en' ? 'font-Monstrate' :'font-Bukrareg'
+      }} "
+      #searchft_
+      placeholder="{{'search for propertyname,user,city'|translate}}"
+      (keyup.enter)="searchft(searchstr)"
+      [(ngModel)]="searchstr"
+    />
+
+    <div
+      (click)="appliedft ? resetgrid() : searchft(searchstr)"
+      [title]="appliedft ? 'clear filter' : 'search'"
+      class="w-[50px] h-10 bg-white border-l-[1px] border-b-0 border-r-[1px] cursor-pointer border-blue-900 flex justify-center items-center"
+    >
+      <i
+        [ngClass]="appliedft ? 'bi bi-x-circle' : 'bi bi-search'"
+        style="font-size: 1.2rem; color: var(--refatheme); font-weight: 500"
+      ></i>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #abcd_grid let-data="valueToPass">
+  <ng-container *ngIf="!gridloader; else loader">
+    <app-dc-component
+      [whereCondition]="data"
+      (abcd_data_emit)="abcd_data_emit($event)"
+      [GridInfo]="GridInfo.fullgrid"
+    >
+    </app-dc-component>
+  </ng-container>
+  <ng-template #loader>
+    <div>
+      <app-skeleton [skelton_type]="'grid'"></app-skeleton>
+    </div>
+  </ng-template>
+</ng-template>

@@ -1,0 +1,563 @@
+<ng-container [ngTemplateOutlet]="list_title"></ng-container>
+<div class="border border-blue-900 h-[83vh] w-[100%] mt-6">
+  <ng-container *ngIf="property_show; else property_details_template">
+    <ng-container [ngTemplateOutlet]="server_ft"></ng-container>
+    <ng-container [ngTemplateOutlet]="scrollable_container"></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #list_title>
+  <ng-container *ngIf="property_show; else formtitle">
+    <ng-container
+      *ngTemplateOutlet="
+        list_of_header;
+        context: { valueToPass: headerMenu.list }
+      "
+    ></ng-container>
+  </ng-container>
+  <ng-template #formtitle>
+    <ng-container
+      *ngTemplateOutlet="
+        list_of_header;
+        context: { valueToPass: headerMenu.form }
+      "
+    ></ng-container>
+  </ng-template>
+</ng-template>
+
+<ng-template #list_of_header let-item="valueToPass">
+  <div class="flex">
+    <div
+      *ngFor="let a of item; let i = index"
+      (click)="selectedIndex = i"
+      class="text-center text-black text-[13px] font-bold {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} uppercase w-[15%] mr-3 pb-[5px] 
+    {{
+        i === selectedIndex
+          ? 'border-b-2 border-blue-900'
+          : 'border-b border-black'
+      }}"
+    >
+      {{ a.name | translate }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #server_ft>
+  <div
+    class="w-[414px] h-[42px] bg-white border border-blue-900 m-3 flex justify-between"
+  >
+    <div
+      class="w-[50px] h-10 bg-white border-r-[1px] border-b-0 border-l-0 border-blue-900 flex justify-center items-center"
+    >
+      <img src="../../../assets/images/filter/Icon.png" alt="" />
+    </div>
+    <input
+      type="text"
+      class="border focus:border-transparent focus:outline-none w-[390px] ps-[10px] 
+       {{
+        direction == 'en' ? 'font-Monstrate' :'font-Bukrareg'
+       }}  "
+      placeholder="{{'search property'|translate}}"
+      [(ngModel)]="search_property_str"
+    />
+    <div
+      class="w-[50px] h-10 bg-white border-l-[1px] border-b-0 border-l-0 border-blue-900 flex justify-center items-center"
+    >
+      <img src="../../../assets/images/filter/Filter.png" alt="" />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #scrollable_container>
+  <div class="scrollable-container">
+    <div class="container mx-auto p-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div
+          *ngFor="
+            let a of properties | searchproperty : search_property_str;
+            let i = index
+          "
+          #carousel
+          (swiperight)="onSwipeLeft($event, a)"
+          (swipeleft)="onSwipeRight($event, a)"
+          class="w-[250px] h-[240px] bg-white rounded-lg border border-blue-900 flex items-center flex-col relative"
+        >
+          <div (click)="property_details(a.property_id, a)">
+            <div class="slideshow-container" dir="ltr">
+              <ng-container>
+                <div class="mySlides fade cursor-pointer">
+                  <img
+                    [src]="a.url[a.selectedindex]"
+                    (load)="onImageLoad('loader' + i)"
+                    style="position: relative"
+                  />
+                  <div id="{{ 'loader' + i }}" class="loader-div">
+                    <div class="loader"></div>
+                  </div>
+                  <div class="doted-icons" (click)="$event.stopPropagation()">
+                    <ng-container *ngIf="a.url.length > 2">
+                      <ng-container *ngFor="let item of [0, 1, 2]">
+                        <span
+                          class="dot"
+                          [ngClass]="{ active: item === a.selectedindex }"
+                          (click)="a.selectedindex = item"
+                        ></span>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <ng-container *ngIf="a.url.length != 1">
+                  <a class="prev" (click)="pic_scroll(a, false, $event)"
+                    >&#10094;</a
+                  >
+                  <a class="next" (click)="pic_scroll(a, true, $event)"
+                    >&#10095;</a
+                  >
+                </ng-container>
+              </ng-container>
+            </div>
+            <div class="w-[100%] mt-2 cursor-pointer">
+              <div
+                class="text-black text-xs font-medium font-['Monstrate'] truncate text-elipsis"
+              >
+                {{ a.details }}
+              </div>
+              <div
+                class="text-black text-[8px] font-normal font-['Monstrate'] truncate text-elipsis"
+              >
+                {{ a.address }}
+              </div>
+              <div class="flex justify-between mt-[3px]">
+                <!-- Annual Rent -->
+                <div class="flex items-center">
+                  <img src="../../../assets/images/gridCard/note. png" alt="" />
+                  <div
+                    class="text-black text-xs font-medium font-['Monstrate'] ml-[2px]"
+                  >
+                    <div
+                      style="font-weight: 600"
+                      class="{{
+                        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                      }}"
+                    >
+                      {{ "annualRent" | translate }}
+                    </div>
+                    {{ a.rate + " SAR" }}
+                  </div>
+                </div>
+
+                <div class="flex justify-center items-center">
+                  <div
+                    class="text-right text-blue-900 text-[10px] font-bold  {{
+                      direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                    }}   mr-1"
+                  >
+                    {{ a.views || 0 }}&nbsp;{{ "views" | translate }}
+                  </div>
+                  <!-- <mat-icon class="text-blue-900"> remove_red_eye </mat-icon> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #property_details_template>
+  <div class="property_details_toolbar px-8 pt-[3rem] pb-4">
+    <p
+      class="desc-proprt {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+      [appDirection]="direction"
+    >
+      {{ "description" | translate }}
+    </p>
+    <ng-container *ngTemplateOutlet="back_arrow_blue"> </ng-container>
+    <!-- <span class="closeModal_X">
+      <i
+        class="bi {{
+          direction == 'en' ? ' bi-arrow-left' : ' bi-arrow-right'
+        }} text-[25px]"
+      ></i
+    ></span> -->
+  </div>
+  <div class="description-content px-2">
+    <ng-template #back_arrow_blue>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="property_details()"
+        title="Close"
+        [svgType]="'back_arrow_blue'"
+      ></app-svg-component>
+    </ng-template>
+
+    <ng-template #back_arrow_black>
+      <app-svg-component
+        (click)="property_details()"
+        title="Close"
+        [svgType]="'back_arrow_blue'"
+      ></app-svg-component>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="description_content"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #description_content>
+  <div class="container mx-auto">
+    <div class="flex h-[100vh]">
+      <ng-container
+        *ngTemplateOutlet="main_description_tempalate_"
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="side_description_tempalate_"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #main_description_tempalate_>
+  <div class="w-3/4">
+    <div>
+      <p
+        class="font-['Monstrate'] apartment-title ps-8 pt-8 pb-2"
+        [appDirection]="direction"
+      >
+        {{ get_property_data?.type + ", " + get_property_data?.city }}
+      </p>
+      <p class="ps-8 text-[12px] font-normal pb-2 font-['Monstrate']">
+        {{
+          get_property_data?.line1 +
+            " " +
+            get_property_data?.line2 +
+            ", " +
+            get_property_data?.city +
+            ", " +
+            get_property_data?.province +
+            ", " +
+            get_property_data?.country
+        }}
+      </p>
+      <div class="ps-8 pb-2">
+        <div class="inline-block me-2">
+          <app-svg-component
+            [svgType]="'sar_currency_form'"
+          ></app-svg-component>
+        </div>
+        <p class="currency-css inline-block font-['Monstrate']">
+          {{ get_property_data?.property_rate }} SAR
+        </p>
+      </div>
+      <div class="ps-8">
+        <p
+          class="font-['Monstrate'] posted-date pe-4"
+          [appDirection]="direction == 'en' ? 'ar' : 'en'"
+        >
+        {{'posted_on'|translate}} 
+          {{ get_property_data?.created_on.split("T")[0] | date : "longDate" }}
+        </p>
+      </div>
+    </div>
+    <div
+      class="flex font-regular-class ps-6 text-[13px] font-normal mb-4 font-['Monstrate'] {{
+        direction == 'en' ? 'pl-6' : 'pr-6'
+      }} "
+    >
+      <span
+        class="font-medium {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+      >
+      {{ "depositAmount" | translate }} :
+      </span>
+      <span class="  {{
+        direction == 'en' ? 'pl-8' : 'pr-12'
+      }} ">{{ get_property_data?.deposit + " SAR" }}</span>
+    </div>
+
+    <div
+      class="font-regular-class ps-6 text-[13px] font-normal mb-4 font-['Monstrate']"
+    >
+      <span
+        class="font-medium {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+      >
+        {{
+          (gridSingledata.user_type == "agent"
+            ? "fal_license_id"
+            : "title_deed_id"
+          ) | translate
+        }}
+        :
+      </span>
+      <span class="px-10" >{{ get_property_data?.fal_license }}</span>
+    </div>
+    <div
+    class="font-regular-class ps-6 text-[13px] font-normal mb-4 font-['Monstrate'] mt-2"
+  >
+    <span
+      class="font-medium {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}  {{
+        direction == 'en' ? 'pr-14' : 'pl-6'
+      }}"
+      >{{ "adv_license" | translate }} :
+    </span>
+    <span >{{ get_property_data?.ad_license }}</span>
+  </div>
+    <div
+      class="font-regular-class ps-6 text-[13px] font-normal mb-4 font-['Monstrate'] mt-2"
+    >
+      <span
+        class="font-medium {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+        >{{ "availableFrom" | translate }} :
+      </span>
+      <span class="px-10" >{{ get_property_data?.available_from }}</span>
+    </div>
+
+    <div class="flex ps-3">
+      <div>
+        <p class="inline-block pe-5 ps-4 bhk-count-para {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrareg'
+        }}">
+          {{ get_property_data?.bedrooms }} {{"beds" | translate}} 
+        </p>
+        <div class="inline-block mt-3 me-2">
+          <app-svg-component [svgType]="'bed_svg'"></app-svg-component>
+        </div>
+      </div>
+      <div>
+        <p class="inline-block pe-5 ps-4 bhk-count-para {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrareg'
+        }}">
+          {{ get_property_data?.bathrooms }}  {{"baths" | translate}}
+        </p>
+        <div class="inline-block mt-3 me-2">
+          <app-svg-component [svgType]="'bath_tub'"></app-svg-component>
+        </div>
+      </div>
+      <div>
+        <p class="inline-block pe-5 ps-4 bhk-count-para font-['Monstrate']">
+          {{ get_property_data?.psize + " meter.sq" }}
+        </p>
+        <div class="inline-block mt-3 me-2">
+          <app-svg-component [svgType]="'sq_meter_zoom'"></app-svg-component>
+        </div>
+      </div>
+    </div>
+    <div class="ps-7 pt-3">
+      <span class="content-about-villa font-['Monstrate']">
+        {{ get_property_data?.description }}
+      </span>
+    </div>
+    <div class="image-container">
+      <div class="flex p-3 flex-wrap">
+        <ng-container
+          *ngFor="
+            let item of get_property_data['thumb_image_manipulated'];
+            let i = index;
+            let isLast = last
+          "
+        >
+          <div
+            class="py-2 w-1/4 relative cursor-pointer"
+            *ngIf="i < 4"
+            (click)="
+              pdf_img_viewer(get_property_data['thumb_image_manipulated'], i)
+            "
+          >
+            <img
+              [src]="item[1]"
+              [alt]="item[0]"
+              style="
+                height: 150px;
+                width: 180px;
+                border: 1px solid;
+                border-radius: 0.3rem;
+              "
+            />
+            <div class="image-blur" *ngIf="i == 3 && !isLast">
+              <p>
+                +{{ get_property_data["thumb_image_manipulated"].length - 4 }}
+                more
+              </p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="amenities p-5 pb-10 ps-7">
+        <div>
+          <p
+            class="title {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "nearbyAmenities" | translate }}
+          </p>
+        </div>
+        <div>
+          <ng-container *ngFor="let item of get_property_data['aminitycheck']">
+            <div *ngIf="item.status" class="inline-block mt-3 me-2 p-5">
+              <ng-container>
+                <app-svg-component [svgType]="item.svg"></app-svg-component>
+              </ng-container>
+              <div class="text-black text-[8px] font-normal pt-2  {{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrareg '
+              }}" style="margin-left: -12px;" >
+                {{item.name| translate}}
+              </div>
+            </div>
+          
+          </ng-container>
+        </div>
+        <div>
+          <p class="title {{
+            direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+          }}">
+            {{ "nearbyFeatures" | translate }}
+          </p>
+        </div>
+        <div>
+          <ng-container
+            *ngFor="let item of get_property_data['nearybyareacheck']"
+          >
+            <div *ngIf="item.status" class="inline-block mt-3 me-2 p-5">
+              <ng-container>
+                <app-svg-component [svgType]="item.svg"></app-svg-component>
+              </ng-container>
+              <div class="text-black text-[8px] font-normal pt-2  {{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrareg '
+              }}" style="margin-left: -12px;" >
+                {{item.name| translate}}
+              </div>
+              <small
+                dir="ltr"
+                class="text-black text-[8px] font-normal font-['Monstrate'] leading-[10px] pt-2"
+                >{{ item.kms
+                }}{{
+                  "
+                km"
+                }}</small
+              >
+            </div>
+          </ng-container>
+          <ng-container *ngTemplateOutlet="map_view_data"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #side_description_tempalate_>
+  <div class="w-1/4 border border-blue-900 side-template h-[80vh]">
+    <div class="side-header">
+      <p class="{{ direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm' }}">
+        {{ "owner_detail" | translate }}
+      </p>
+    </div>
+    <div class="side-content p-4 space-y-4">
+      <!-- User Information Section -->
+      <div class="flex">
+        <p
+          class="{{
+            direction == 'en'
+              ? 'font-Monstrate text-left  w-[30%]'
+              : 'font-Bukrasm text-right text-[14px]  w-[53%]'
+          }} "
+        >
+          {{ "name" | translate }}:
+        </p>
+        <p
+          class="font-['Monstrate'] w-[97%] {{
+            direction == 'en' ? 'text-left' : 'text-right'
+          }}"
+        >
+          {{ get_property_data["side_card_data"]["username"] }}
+        </p>
+      </div>
+
+      <!-- Mobile Information Section -->
+      <div class="flex">
+        <p
+          class=" {{
+            direction == 'en'
+              ? 'font-Monstrate text-left  w-[30%]'
+              : 'font-Bukrasm text-right text-[14px]  w-[53%]'
+          }} "
+        >
+          {{ "mobile" | translate }}:
+        </p>
+        <p
+          style="direction: ltr"
+          class="font-['Monstrate'] w-[97%] {{
+            direction == 'en' ? 'text-left' : 'text-right'
+          }}"
+        >
+          {{ get_property_data["side_card_data"]["mobile"] }}
+        </p>
+      </div>
+
+      <!-- Email Information Section -->
+      <div class="flex">
+        <p
+          class="{{
+            direction == 'en'
+              ? 'font-Monstrate text-left  w-[30%]'
+              : 'font-Bukrasm text-right text-[14px]  w-[53%]'
+          }}   "
+        >
+          {{ "email" | translate }}:
+        </p>
+        <p
+          class="font-['Monstrate'] w-[97%] {{
+            direction == 'en' ? 'text-left' : 'text-right'
+          }} pt-1 "
+        >
+          {{ get_property_data["side_card_data"]["email"] }}
+        </p>
+      </div>
+
+      <!-- Address Information Section -->
+      <div class="flex">
+        <p
+          class="{{
+            direction == 'en'
+              ? 'font-Monstrate text-left  w-[30%]'
+              : 'font-Bukrasm text-right  text-[14px] w-[53%]'
+          }}"
+        >
+          {{ "address" | translate }}:
+        </p>
+        <p
+          class="font-['Monstrate'] w-[97%] {{
+            direction == 'en' ? 'text-left' : 'text-right'
+          }} px-2"
+        >
+          {{ get_property_data["side_card_data"]["address_details"] }}
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #map_view_data>
+  <div
+    class="text-black col-span-4 text-[15px] font-semibold {{
+      direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+    }} mt-[2%]"
+  >
+    {{ "location" | translate }}
+  </div>
+  <div class="map-container">
+    <app-open-layer [latitude_longitude]="get_property_data['location_detail']">
+    </app-open-layer>
+  </div>
+</ng-template>

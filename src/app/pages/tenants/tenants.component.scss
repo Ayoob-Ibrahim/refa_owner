@@ -1,0 +1,305 @@
+.form-header {
+  color: var(--refatheme);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 18.29px;
+  //  text-align: left;
+}
+
+.form-header-profile {
+  height: 30vh;
+  margin-top: 28px;
+  img {
+    margin-top: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--refatheme);
+    width: 60px;
+    height: 58px;
+    transform: scale(2);
+  }
+
+  .personal-info-card {
+    margin-top: -3%;
+    p {
+      display: inline-block;
+    }
+
+    .personal-info-font {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 18.29px;
+
+      padding: 2px 8px 2px 0px;
+    }
+
+    .personal-info-font-result {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 18px;
+      text-align: left;
+    }
+  }
+}
+
+.property-information {
+  img {
+    width: 195px;
+    height: 90px;
+    margin-top: 26px;
+    border: 1px solid var(--refatheme);
+  }
+
+  .currency-css {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.5px;
+    text-align: left;
+  }
+
+  p {
+    display: inline-block;
+  }
+
+  .proper-info-feat-tit {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 15.85px;
+    text-align: left;
+    margin-left: 10px;
+  }
+
+  .proper-info-feat-resul {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.63px;
+    text-align: left;
+  }
+
+  .propert-info-house-info {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    margin-right: 10px;
+  }
+}
+
+.tenanat-information-page {
+  position: relative;
+  margin-top: 10px;
+  height: 81vh;
+  overflow-y: auto;
+  border: 1px solid var(--refatheme);
+  scrollbar-width: thin;
+}
+
+.tenanat-information-page::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+.tenanat-information-page::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+}
+
+.financial-assessment-form {
+  padding: 0.3rem;
+
+  .financial-assessment-input {
+    font-family: "Monstrate";
+    width: 90%;
+    height: 2rem;
+    background-color: #ffffff;
+    border-radius: 0 !important;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0c1892;
+    outline: none;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .financial-assessment-input-label {
+    font-size: 12px;
+    color: var(--refatheme);
+    font-weight: 400;
+    line-height: 15.85px;
+    //  text-align: left;
+  }
+
+  label {
+    font-size: 12px !important;
+    margin: 0.5rem;
+  }
+}
+
+.properties-row-ltr {
+  cursor: pointer;
+  width: 100%;
+  border: 1px solid var(--refatheme);
+  height: 20vh;
+  margin-top: 20px;
+  border-left: 7px solid var(--refatheme);
+
+  img {
+    margin-top: 8%;
+    margin-left: 10%;
+    width: 150px;
+    height: 90px;
+    border: 1px solid var(--refatheme);
+  }
+}
+.properties-row-rtl {
+  cursor: pointer;
+  width: 100%;
+  border: 1px solid var(--refatheme);
+  height: 20vh;
+  margin-top: 20px;
+  border-right: 7px solid var(--refatheme);
+
+  img {
+    margin-top: 8%;
+    margin-right: 10%;
+    width: 150px;
+    height: 90px;
+    border: 1px solid var(--refatheme);
+  }
+}
+
+.list-agencies-description {
+  position: relative;
+  border: 1px solid var(--refatheme);
+  margin-top: 10px;
+
+  .desc-para {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    line-height: 24.38px;
+    //  text-align: left;
+    color: var(--refatheme);
+  }
+
+  .description-content {
+    height: 65vh;
+    overflow-y: auto;
+    width: 100%;
+
+    .apartment-title {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 19.5px;
+      text-align: left;
+    }
+
+    .posted-date {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14.63px;
+      text-align: right;
+      color: var(--refatheme);
+    }
+
+    .currency-css {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 19.5px;
+      text-align: left;
+    }
+
+    .bhk-count-para {
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    .proper-info-feat-tit {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 15.85px;
+      text-align: left;
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    .proper-info-feat-resul {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 14.63px;
+      text-align: left;
+      display: inline-block;
+    }
+
+    .content-about-villa {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: left;
+    }
+  }
+
+  .description-content::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+  }
+
+  .description-content::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: #afafaf !important;
+  }
+}
+
+.download-btn {
+  border: 1px solid gray;
+  width: 88%;
+  margin-left: 1%;
+  margin-top: 4%;
+  margin-bottom: 3%;
+  height: 30px;
+  background-color: rgba(128, 128, 128, 0.371);
+  border-radius: 0.1rem;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 1%;
+  overflow-y: hidden !important;
+  overflow: hidden;
+}
+
+.image-blur {
+  height: 150px;
+  width: 180px;
+  position: absolute;
+  bottom: 0%;
+  top: 5%;
+  background-color: rgb(25, 35, 42, 0.8);
+  // filter: grayscale(100%);
+}
+
+.image-blur p {
+  font-size: 24px;
+  font-weight: 400;
+  color: white;
+  padding-top: 35%;
+  padding-left: 27%;
+}
+
+.map-container {
+  border: 1px solid black;
+  // width: 70vw;
+}
+.ltr_arrow {
+  cursor: pointer;
+  z-index: 100;
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  transform: rotate(0deg);
+}
+.rtl_arrow {
+  z-index: 100;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  transform: rotate(180deg);
+  top: 8px;
+}

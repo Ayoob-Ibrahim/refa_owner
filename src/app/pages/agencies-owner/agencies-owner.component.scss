@@ -1,0 +1,310 @@
+button {
+  background: var(--themeGlobal) !important;
+  padding: 5px 10px 5px 10px;
+  border: none !important;
+  color: white;
+  border-radius: 8px;
+  border: 1px solid var(--refatheme);
+}
+
+.agent-title-content {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 29.26px;
+  // text-align: left;
+  text-transform: capitalize !important;
+}
+
+.agent-container {
+  // border: 1px solid var(--refatheme);
+  // width: 84vw;
+  // height: 81vh;
+  margin-top: 10px;
+  position: relative;
+
+  .agent-container-data {
+    height: 65vh;
+    overflow-y: auto;
+
+    .agent-container-img {
+      position: relative;
+
+      img {
+        border-radius: 50%;
+        border: 1px solid var(--refatheme);
+        width: 100px;
+        height: 98px;
+
+        // transform: scale(2);
+      }
+
+      .class-agent-head {
+        position: absolute;
+        top: 6%;
+      }
+
+      h1 {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    button {
+      // border: 1px solid var(--refatheme) !important;
+      width: 110px !important;
+      margin: 30px;
+      color: #0c1892;
+      font-size: 13px !important;
+      font-weight: 700;
+    }
+  }
+}
+
+.approve-btn {
+  background-color: #0c1892 !important;
+  color: #ffffff !important;
+}
+
+.suspend-btn {
+  background-color: red !important;
+  color: #ffffff !important;
+  border: 1px solid white !important;
+  outline: 1px solid white !important;
+}
+
+.agent-container-data::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.agent-container-data::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  border: 3px solid #afafaf;
+}
+
+.agent-assessment-form {
+  padding: 0.3rem;
+
+  .agent-assessment-input {
+    width: 90%;
+    font-family: Monstrate;
+    height: 2rem;
+    background-color: #ffffff;
+    border-radius: 0 !important;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0c1892;
+    outline: none;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .agent-assessment-input-label {
+    font-size: 13px;
+    color: var(--refatheme);
+    font-weight: 500;
+    line-height: 15.85px;
+    // text-align: left;
+  }
+
+  label {
+    font-size: 12px !important;
+    margin: 0.5rem;
+  }
+}
+
+.closeModal_X {
+  position: absolute;
+  top: 15px;
+  // right: 10px;
+  font-size: 1rem;
+  z-index: 100;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.list_of_properties {
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18.29px;
+    // text-align: left;
+    color: var(--refatheme);
+  }
+
+  .properties-row-ltr {
+    cursor: pointer;
+    width: 100%;
+    border: 1px solid var(--refatheme);
+    height: 20vh;
+    margin-top: 20px;
+    border-left: 7px solid var(--refatheme);
+
+    img {
+      margin-top: 8%;
+      margin-left: 10%;
+      width: 150px;
+      height: 90px;
+      border: 1px solid var(--refatheme);
+    }
+  }
+  .properties-row-rtl {
+    cursor: pointer;
+    width: 100%;
+    border: 1px solid var(--refatheme);
+    height: 20vh;
+    margin-top: 20px;
+    border-right: 7px solid var(--refatheme);
+
+    img {
+      margin-top: 8%;
+      margin-right: 10%;
+      width: 150px;
+      height: 90px;
+      border: 1px solid var(--refatheme);
+    }
+  }
+}
+
+.list-agencies-description {
+  position: relative;
+
+  .desc-para {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    line-height: 24.38px;
+    // text-align: left;
+    color: var(--refatheme);
+  }
+
+  .description-content {
+    height: 65vh;
+    overflow-y: auto;
+    width: 100%;
+
+    .apartment-title {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 19.5px;
+      // text-align: left;
+    }
+
+    .posted-date {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14.63px;
+      // text-align: right;
+      color: var(--refatheme);
+    }
+  }
+}
+
+.currency-css {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.5px;
+  text-align: left;
+}
+
+.bhk-count-para {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: center;
+}
+
+.proper-info-feat-tit {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.85px;
+  text-align: left;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.proper-info-feat-resul {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14.63px;
+  text-align: left;
+  display: inline-block;
+}
+
+.content-about-villa {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+}
+
+.description-content::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+.description-content::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background-color: #afafaf !important;
+}
+
+.image-container {
+  img {
+    height: 130px;
+  }
+}
+
+.amenities {
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.5px;
+    // text-align: left;
+  }
+}
+
+.download-btn {
+  border: 1px solid gray;
+  width: 88%;
+  margin-left: 1%;
+  font-size: 11px;
+  // margin-top: 4%;
+  margin-bottom: 3%;
+  height: 30px;
+  background-color: rgba(128, 128, 128, 0.371);
+  border-radius: 0.1rem;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 1%;
+  overflow-y: hidden;
+}
+
+.image-blur {
+  height: 150px;
+  width: 180px;
+  position: absolute;
+  bottom: 0%;
+  top: 5%;
+  background-color: rgb(25, 35, 42, 0.8);
+}
+
+.image-blur p {
+  font-size: 24px;
+  font-weight: 400;
+  color: white;
+  padding-top: 35%;
+  padding-left: 27%;
+}
+
+.ltr_arrow {
+  cursor: pointer;
+  position: absolute;
+  left: 10px;
+  top: -2px;
+  transform: rotate(0deg);
+}
+.rtl_arrow {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  transform: rotate(180deg);
+  top: -2px;
+}

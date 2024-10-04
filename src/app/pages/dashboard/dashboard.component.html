@@ -1,0 +1,143 @@
+<div class="flex">
+  <div
+    *ngFor="let a of headerMenu; let i = index"
+    (click)="selectedIndex = i"
+    class="text-center text-black text-[13px] font-bold  uppercase w-[10%] mr-3 pb-[5px] cursor-pointer
+    {{
+      i === selectedIndex
+        ? 'border-b-2 border-blue-900'
+        : 'border-b border-black'
+    }}  
+    
+    {{
+        direction == 'en'  ? 'font-Monstrate' :  'font-Bukrasm'
+    }} "
+  >
+    {{ a.name | translate }}
+  </div>
+</div>
+
+<div class="container border border-blue-900 w-90vw h-90vh m-2 main-cont">
+  <ng-container *ngTemplateOutlet="title_widget_area"></ng-container>
+</div>
+
+<ng-template #title_widget_area>
+  <div class="container">
+    <div class="grid grid-cols-5 gap-6 title-widget p-3">
+      <ng-container *ngFor="let item of list; let i = index">
+        <ng-container
+          *ngTemplateOutlet="
+            rect_widget_title_card;
+            context: { valueToPass: item, index: i }
+          "
+        ></ng-container>
+      </ng-container>
+    </div>
+    <div>
+      <div class="flex sub-cont m-2">
+        <div class="w-1/2 p-4 colspan m-2">
+          <ng-container *ngTemplateOutlet="action_item"> </ng-container>
+        </div>
+        <div class="w-1/2 p-4 colspan m-2" style="overflow-y: hidden">
+          <ng-container *ngTemplateOutlet="notifictaion"> </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #action_item>
+  <div>
+    <ng-container
+      *ngTemplateOutlet="
+        sub_content_title_card;
+        context: { valueToPass: 'action_item' }
+      "
+    >
+    </ng-container>
+  </div>
+  <div style="max-height: 50vh; overflow-y: auto">
+    <app-dc-component
+      [whereCondition]="action_grid_wr"
+      [GridInfo]="GridInfo.quarterGrid"
+      (abcd_data_emit)="abcd_data_emit($event)"
+    >
+    </app-dc-component>
+  </div>
+</ng-template>
+
+<ng-template #notifictaion>
+  <div>
+    <ng-container
+      *ngTemplateOutlet="
+        sub_content_title_card;
+        context: { valueToPass: 'notification' }
+      "
+    >
+    </ng-container>
+  </div>
+  <div class="notification-card-container" style="direction: ltr">
+    <ng-container
+      *ngFor="
+        let item of notifiction;
+        let i = index;
+        let total = count;
+        let lastVal = last
+      "
+    >
+      <div class="notification-card" style="position: relative">
+        <div>
+          <span class="dot_"></span>
+        </div>
+        <ng-container *ngIf="lastVal; else notification_bar_line">
+        </ng-container>
+        <div class="notification-card-scroll font-Monstrate">
+          {{ item.logs }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #rect_widget_title_card let-data="valueToPass" let-i="index">
+  <div class="rect-grid-col">
+    <div class="flex">
+      <div class="w-1/4 pt-2 ps-3">
+        <app-svg-component [svgType]="data?.icon"> </app-svg-component>
+      </div>
+      <div class="w-3/2 pt-2 ps-3 mt-1">
+        <h6 class="font-bold count-title ps-2">{{ data.count }}</h6>
+      </div>
+    </div>
+    <div
+      class="{{
+        direction == 'en' ? 'font-bold' : 'font-bold'
+      }} title-card ms-2 {{
+        direction == 'en'
+          ? 'font-Monstrate'
+         :
+           'font-Bukrasm'
+         
+      }}"
+    >
+      {{ data.widgetname | translate }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #sub_content_title_card let-data="valueToPass">
+  <div>
+    <div
+      class="notification-container  text-base  {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+      [appDirection]="direction"
+    >
+      {{ data | translate }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #notification_bar_line>
+  <div class="vertical-line"></div>
+</ng-template>

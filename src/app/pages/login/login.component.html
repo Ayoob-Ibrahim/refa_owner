@@ -1,0 +1,117 @@
+<div
+  class="bg-cover bg-center h-screen flex justify-end items-center"
+  dir="ltr"
+  style="background-image: url('../../../assets/images/login/login-bg.jpeg')"
+>
+  <p-toast position="bottom-center" />
+  <div
+    [dir]="cur_lang == 'en' ? 'ltr' : 'rtl'"
+    class="w-[386px] h-[563px] bg-white rounded-sm mr-[5%] flex flex-col justify-evenly items-center relative"
+    [formGroup]="loginForm"
+  >
+    <div
+      class="capsule-lang  absolute {{
+        cur_lang == 'en'
+          ? 'top-0 right-[9px] font-Bukrasm'
+          : 'top-0 left-[9px] font-Monstrate'
+      }} "
+      (click)="languagecontrol()"
+    >
+      {{ cur_lang == "en" ? "عربي" : "En" }}
+    </div>
+    <img
+      class="w-[158px] h-[39px]"
+      src="../../../assets/images/login/logo.png"
+      alt=""
+    />
+    <img
+      class="w-[227px]"
+      src="../../../assets/images/login/Rent now Pay later.png"
+      alt=""
+    />
+
+    <div class="h-[27%] flex flex-col justify-between">
+      <div>
+        <div
+          class="text-blue-900 text-[11px] font-normal {{
+            cur_lang == 'en' ? 'english' : 'arabic'
+          }}"
+        >
+          {{ "login_email" | translate }}
+        </div>
+        <input
+          name="username"
+          formControlName="username"
+          class="w-[330px] h-10 bg-white rounded-[3px] border border-blue-900 focus:outline-none pl-2"
+          type="text"
+        />
+      </div>
+
+      <div style="position: relative">
+        <div
+          class="text-blue-900 text-[11px] font-normal  {{
+            cur_lang == 'en' ? 'english' : 'arabic'
+          }}"
+        >
+          {{ "login_password" | translate }}
+        </div>
+        <input
+          name="username"
+          formControlName="password"
+          (keyup.enter)="loginForm.valid ? submit_log_data() : ''"
+          class="w-[330px] h-10 bg-white rounded-[3px] border border-blue-900 focus:outline-none pl-2"
+          type="password"
+          [type]="!isVisible ? 'password' : 'text'"
+        />
+        <span
+          class="absolute {{
+            cur_lang == 'en'
+              ? ' right-[10px] top-[30px] '
+              : '  left-[10px] top-[30px] '
+          }}"
+        >
+          <i
+            [ngClass]="{
+              'bi bi-eye-fill': isVisible,
+              'bi bi-eye-slash-fill': !isVisible
+            }"
+            style="font-size: 16px; color: #0c1892; cursor: pointer"
+            (click)="toggleVisibiltiy()"
+          ></i
+        ></span>
+
+        <div
+          class="text-blue-900 text-[11px] font-normal text-end font-['Monstrate'] mt-3"
+        >
+          <!-- Forgot Password ? -->
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center">
+      <div class="checkbox-wrapper-23">
+        <input type="checkbox" id="check-23" formControlName="rememberme" />
+        <label for="check-23" style="--size: 30px">
+          <svg viewBox="0,0,50,50">
+            <path d="M5 30 L 20 45 L 45 5"></path>
+          </svg>
+        </label>
+      </div>
+      <div
+        class="text-black text-[11px] font-normal {{
+          cur_lang == 'en' ? 'english ml-2' : 'arabic mr-2'
+        }}  mt-[10px]"
+      >
+        {{ "login_save" | translate }}
+      </div>
+    </div>
+
+    <button
+      class="login-button {{ cur_lang == 'en' ? 'english' : 'arabic' }}"
+      (click)="submit_log_data()"
+      [disabled]="!loginForm.valid"
+    >
+      {{ "login" | translate }}
+    </button>
+  </div>
+</div>

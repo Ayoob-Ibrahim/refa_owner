@@ -1,0 +1,1009 @@
+<div class="container mx-auto py-4">
+  <ng-container *ngTemplateOutlet="list_tenant_users"></ng-container>
+</div>
+
+<ng-template #list_tenant_users>
+  <ng-container *ngTemplateOutlet="list_title"></ng-container>
+  <ng-container *ngTemplateOutlet="list_container"></ng-container>
+</ng-template>
+
+<ng-template #list_container>
+  <ng-container
+    *ngIf="
+      tenant_grid_show;
+      then tenant_grid_page;
+      else tenant_information_page_owner_properties_tenant
+    "
+  >
+  </ng-container>
+</ng-template>
+
+<ng-template #list_title>
+  <ng-container *ngIf="tenant_grid_show; else formtitle">
+    <ng-container
+      *ngTemplateOutlet="
+        list_of_header;
+        context: { valueToPass: headerMenu.list }
+      "
+    ></ng-container>
+  </ng-container>
+  <ng-template #formtitle>
+    <ng-container
+      *ngTemplateOutlet="
+        list_of_header;
+        context: { valueToPass: headerMenu.form }
+      "
+    ></ng-container>
+  </ng-template>
+</ng-template>
+
+<ng-template #list_of_header let-item="valueToPass">
+  <div class="flex">
+    <div
+      *ngFor="let a of item; let i = index"
+      (click)="selectedIndex.set(i)"
+      class="text-center text-black text-[13px] font-bold {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} uppercase w-[190px] mr-3 pb-[5px] cursor-pointer
+        {{
+        i === selectedIndex()
+          ? 'border-b-2 border-blue-900'
+          : 'border-b border-black'
+      }}"
+    >
+      {{ a.name | translate }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tenant_information_page_owner_properties_tenant>
+  <ng-container
+    *ngIf="
+      Ishow_prop;
+      then list_tenant_description;
+      else tenant_inforamation_overview
+    "
+  >
+  </ng-container>
+</ng-template>
+
+<ng-template #tenant_inforamation_overview>
+  <div class="tenanat-information-page">
+    <!-- <span
+      class="closeModal_X"
+      title="Close"
+      (click)="closeform()"
+      style="position: relative"
+      [style]="direction == 'ar' ? 'right: 15px;top:7px' : 'left:15px;top:7px'"
+    >
+      <i
+        class="bi {{
+          direction == 'en' ? ' bi-arrow-left' : ' bi-arrow-right'
+        }} text-[25px]"
+      ></i
+    ></span> -->
+
+    <ng-container *ngTemplateOutlet="back_arrow_blue"> </ng-container>
+
+    <ng-template #back_arrow_blue>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_blue'"
+      ></app-svg-component>
+    </ng-template>
+
+    <ng-template #back_arrow_black>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_black'"
+      ></app-svg-component>
+    </ng-template>
+    <div class="p-10" style="position: relative">
+      <div class="grid grid-cols-2 gap-4">
+        <ng-container
+          *ngTemplateOutlet="
+            tenant_card_profile;
+            context: {
+              valueToPass: {
+                title: 'tenant_information',
+                name: data_values?.user_name,
+                imgsrc: data_values?.image,
+                mobile: data_values?.user_mobile,
+                email: data_values?.user_email,
+                location: data_values?.user_location
+              }
+            }
+          "
+        >
+        </ng-container>
+      </div>
+      <div>
+        <ng-container *ngTemplateOutlet="tenant_property_information">
+        </ng-container>
+      </div>
+
+      <div>
+        <ng-container *ngTemplateOutlet="tenant_financial_assessment">
+        </ng-container>
+      </div>
+
+      <div
+        class="mt-[4%]"
+        style="
+          border-left: 1px solid rgba(128, 128, 128, 0.428);
+          border-right: 2px solid rgba(128, 128, 128, 0.428);
+        "
+      >
+        <ng-container *ngTemplateOutlet="inner_grid"> </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tenant_property_information>
+  <div class="p-4">
+    <div
+      class="form-header {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} "
+    >
+      {{ "property_information" | translate }}
+    </div>
+    <ng-container *ngFor="let item of data_values.property_details">
+      <ng-container
+        *ngTemplateOutlet="properties_card_row; context: { valueToPass: item }"
+      >
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #properties_card_row let-data="valueToPass">
+  <div
+    class="{{
+      direction == 'en' ? 'properties-row-ltr' : 'properties-row-rtl'
+    }}"
+    (click)="propertiesDetail(data)"
+  >
+    <div class="w-1/2" style="display: flex">
+      <div>
+        <!-- <img [src]="data.updatedimg"> -->
+        <img [src]="data.image_array[0]" alt="" />
+      </div>
+      <div
+        [ngStyle]="{
+          'margin-left': direction == 'en' ? '13%' : '0%',
+          'margin-right': direction == 'en' ? '0%' : '13%'
+        }"
+      >
+        <p class="font-['Monstrate']">{{ data.details }}</p>
+        <small class="font-['Monstrate']">{{ data.address }} </small>
+        <div>
+          <div class="inline-block mt-3 me-2">
+            <app-svg-component
+              [svgType]="'sar_currency_form'"
+            ></app-svg-component>
+          </div>
+          <p class="currency-css inline-block font-['Monstrate']">
+            {{ data.rent }} SAR
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tenant_financial_assessment>
+  <div class="p-4">
+    <div class="flex">
+      <div
+        style="margin-bottom: 18px"
+        class="w-1/4 border-r border-gray-400 border-solid"
+      >
+        <div style="text-align: center">
+          <div
+            class="{{ direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm' }}"
+            style="text-transform: capitalize !important"
+          >
+            {{ "step1" | translate }}
+          </div>
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "name" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.user_name"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "mobile" | translate }}
+          </div>
+          <input
+            name="username"
+            dir="ltr"
+            class="financial-assessment-input {{
+              direction == 'en' ? '' : 'text-right'
+            }}"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.user_mobile"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "email" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.user_email"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "location" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.user_location"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "dob" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.dob"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "nationality" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.nationality"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "no_of_members" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.no_of_family_members"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "national_id" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.national_id"
+          />
+        </div>
+      </div>
+      <div
+        class="w-1/4 border-r border-gray-400 border-solid"
+        style="margin-left: 2%; margin-bottom: 18px"
+      >
+        <div style="text-align: center">
+          <div
+            class="{{ direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm' }}"
+            style="text-transform: capitalize !important"
+          >
+            {{ "step2" | translate }}
+          </div>
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "current_job" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.current_job"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "monthly_income" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.monthly_income"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "job_start_date" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.job_start_date"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "name_of_working_place" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.name_of_the_working_place"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "location" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.user_location"
+          />
+        </div>
+      </div>
+      <div
+        class="w-1/4 border-r border-gray-400 border-solid"
+        style="margin-left: 2%; margin-bottom: 18px"
+      >
+        <div style="text-align: center">
+          <div
+            class="{{ direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm' }}"
+            style="text-transform: capitalize !important"
+          >
+            {{ "step3" | translate }}
+          </div>
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "proof_of_income" | translate }}
+          </div>
+          <div
+            class="download-btn font-['Monstrate']"
+            (click)="doc_download(data_values?.proofdoc, 'Proof of income')"
+          >
+            {{ "income_certificate"| translate }}
+          </div>
+        </div>
+        <!-- <div class="financial-assessment-form">
+          <div class="financial-assessment-input-label">
+            {{ "credit_score" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.creditscore_proof"
+          />
+        </div> -->
+        <!-- doc_download(data_values?.documents,'Proof of income') -->
+        <div
+          class="download-btn font-['Monstrate']"
+          (click)="data_values?.documents==''?null: doc_download(data_values?.documents, 'Proof of income')"
+        >
+        <!-- (click)="doc_download(data_values?.documents, 'Proof of income')" -->
+        {{  ( data_values?.documents==''? "No Credit Score Document": "credit_score_document1")| translate }}
+        <!-- {{ "credit_score_document1"|translate }} -->
+        </div>
+
+        <div class="financial-assessment-form mt-5">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "existing_debts" | translate }}
+          </div>
+          <div class="mt-2 ms-2">
+            <input
+              type="radio"
+              [value]="true"
+              [(ngModel)]="data_values.existing_debts"
+            /><label
+              class="{{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+              }}"
+              >{{ "yes" | translate }}</label
+            >
+            <input
+              type="radio"
+              [value]="false"
+              [(ngModel)]="data_values.existing_debts"
+            /><label
+              class="{{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+              }}"
+              >{{ "no" | translate }}</label
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="w-1/4 border-r border-gray-400 border-solid"
+        style="margin-left: 2%; margin-bottom: 18px"
+      >
+        <div style="text-align: center">
+          <div
+            style="text-transform: capitalize !important"
+            class="{{ direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm' }}"
+          >
+            {{ "step4" | translate }}
+          </div>
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "duration" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.duration"
+          />
+        </div>
+        <div class="financial-assessment-form">
+          <div
+            class="financial-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "no_of_installments" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.emi_installments"
+          />
+        </div>
+        <!-- <div class="financial-assessment-form">
+          <div class="financial-assessment-input-label">
+            {{ "move_in_date" | translate }}
+          </div>
+          <input
+            name="username"
+            class="financial-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="data_values?.move_in_date"
+          />
+        </div> -->
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tenant_grid_page>
+  <div style="padding: 1rem">
+    <ng-container>
+      <ng-container *ngTemplateOutlet="server_ft_bar"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="!gridloader; else loader">
+      <div style="padding-top: 10px">
+        <app-dc-component
+          [whereCondition]="abcd_grid_wr"
+          (abcd_data_emit)="abcd_data_emit($event)"
+          [GridInfo]="GridInfo.fullgrid"
+          [loader]="true"
+        >
+        </app-dc-component>
+      </div>
+    </ng-container>
+    <ng-template #loader>
+      <div>
+        <app-skeleton [skelton_type]="'grid'"></app-skeleton>
+      </div>
+    </ng-template>
+  </div>
+</ng-template>
+
+<!-- LIST OF PROPERTY DESCRIPTION-->
+<ng-template #list_tenant_description>
+  <div class="list-agencies-description">
+    <!-- <span
+      class="closeModal_X"
+      (click)="propertiesDetail()"
+      title="Close"
+      style="position: relative"
+      [style]="direction == 'ar' ? 'right: 50px;top:7px' : 'left:15px;top:7px'"
+    >
+      <i
+        class="bi {{
+          direction == 'en' ? ' bi-arrow-left' : ' bi-arrow-right'
+        }} text-[25px]"
+      ></i
+    ></span> -->
+
+    <ng-container *ngTemplateOutlet="back_arrow_blue"> </ng-container>
+
+    <ng-template #back_arrow_blue>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="propertiesDetail()"
+        title="Close"
+        [svgType]="'back_arrow_blue'"
+      ></app-svg-component>
+    </ng-template>
+
+    <ng-template #back_arrow_black>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="propertiesDetail()"
+        title="Close"
+        [svgType]="'back_arrow_black'"
+      ></app-svg-component>
+    </ng-template>
+    <p
+      class="ps-7 pt-[3rem] {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukra'
+      }} pb-2 desc-para"
+      [appDirection]="direction"
+    >
+      {{ "description" | translate }} :
+    </p>
+
+    <div class="description-content">
+      <div class="ps-5">
+        <div class="grid grid-cols-2 gap-4">
+          <ng-container
+            *ngTemplateOutlet="
+              tenant_card_profile;
+              context: {
+                valueToPass: {
+                  title: 'owner_information',
+                  name: 'ayoob',
+                  imgsrc: '../../../assets/dummy_dp/dp_dummy.jpg',
+                  mobile: '+966087879',
+                  email: 'ayoob@EITWORKS.COM',
+                  location: 'Riyadh'
+                }
+              }
+            "
+          >
+          </ng-container>
+        </div>
+      </div>
+      <div>
+        <p class="font-['Monstrate'] apartment-title ps-8 pt-8 pb-2">
+          {{ tenant_description?.details }}
+        </p>
+        <p class="ps-8 text-[12px] font-['Monstrate'] font-normal pb-2">
+          {{ tenant_description?.address }}
+        </p>
+        <div class="ps-8 pb-2">
+          <div class="inline-block me-2">
+            <app-svg-component
+              [svgType]="'sar_currency_form'"
+            ></app-svg-component>
+          </div>
+          <p class="currency-css inline-block">
+            {{ tenant_description?.rent }}SAR
+          </p>
+        </div>
+        <div class="ps-8">
+          <p class="font-['Monstrate'] posted-date pe-4">
+            <!-- Posted on {{tenant_description?.updatedon.split(' ')[0]}} -->
+          </p>
+        </div>
+      </div>
+      <div class="flex ps-3">
+        <div>
+          <p class="inline-block pe-5 ps-4 bhk-count-para font-['Monstrate']">
+            {{ tenant_description?.bedrooms }} Beds
+          </p>
+          <div class="inline-block mt-3 me-2">
+            <app-svg-component [svgType]="'bed_svg'"></app-svg-component>
+          </div>
+        </div>
+        <div>
+          <p class="inline-block pe-5 ps-4 bhk-count-para font-['Monstrate']">
+            {{ tenant_description?.bathrooms }} baths
+          </p>
+          <div class="inline-block mt-3 me-2">
+            <app-svg-component [svgType]="'bath_tub'"></app-svg-component>
+          </div>
+        </div>
+        <div>
+          <p class="inline-block pe-5 ps-4 bhk-count-para font-['Monstrate']">
+            {{ tenant_description?.psize }} meter sq
+          </p>
+          <div class="inline-block mt-3 me-2">
+            <app-svg-component [svgType]="'sq_meter_zoom'"></app-svg-component>
+          </div>
+        </div>
+      </div>
+      <div class="ps-4 pt-4">
+        <div>
+          <p
+            class="proper-info-feat-tit me-3 {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "category" | translate }}:
+          </p>
+          <p class="proper-info-feat-resul font-['Monstrate'] ps-2">
+            {{ tenant_description?.category }}
+          </p>
+        </div>
+        <div>
+          <p
+            class="proper-info-feat-tit me-3 {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "propertytype" | translate }}:
+          </p>
+          <p class="proper-info-feat-resul font-['Monstrate'] ps-2">
+            {{ tenant_description?.type }}
+          </p>
+        </div>
+        <div>
+          <p
+            class="proper-info-feat-tit me-3 {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "furnishment" | translate }}:
+          </p>
+          <p class="proper-info-feat-resul font-['Monstrate'] ps-2">
+            {{ tenant_description?.furnishment }}
+          </p>
+        </div>
+        <div *ngIf="false">
+          <p
+            class="proper-info-feat-tit me-3 {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            BHK type:
+          </p>
+          <p class="proper-info-feat-resul font-['Monstrate'] ps-2">
+            {{ tenant_description?.bhktype }}
+          </p>
+        </div>
+      </div>
+      <div class="ps-7 pt-3">
+        <span class="content-about-villa font-['Monstrate']">
+          {{ tenant_description?.description }}
+        </span>
+      </div>
+      <div class="image-container">
+        <div class="flex p-3 flex-wrap ms-2">
+          <ng-container
+            *ngFor="
+              let item of tenant_description?.url;
+              let i = index;
+              let isLast = last
+            "
+          >
+            <div
+              class="py-2 w-1/4"
+              *ngIf="i < 4"
+              style="position: relative; cursor: pointer"
+              (click)="imageView(tenant_description?.url, i)"
+            >
+              <img
+                [src]="item"
+                [alt]="item"
+                style="
+                  height: 150px;
+                  width: 180px;
+                  border: 1px solid;
+                  border-radius: 0.3rem;
+                "
+              />
+              <div class="image-blur" *ngIf="i == 3 && !isLast">
+                <p>+{{ tenant_description?.url.length - 4 }} more</p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="amenities p-5 pb-10 ps-7">
+        <div>
+          <p
+            class="title {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "nearbyAmenities" | translate }}
+          </p>
+        </div>
+        <div>
+          <ng-container *ngFor="let item of tenant_description['aminitycheck']">
+            <div class="inline-block mt-3 me-2 p-5" *ngIf="item.status">
+              <app-svg-component [svgType]="item.svg"></app-svg-component>
+            </div>
+          </ng-container>
+        </div>
+        <div class="pt-5">
+          <p class="title font-['Monstrate']">
+            {{ "nearbyFeatures" | translate }}
+          </p>
+        </div>
+        <div>
+          <ng-container
+            *ngFor="let item of tenant_description['nearybyareacheck']"
+          >
+            <div *ngIf="item.status" class="inline-block mt-3 me-2 p-5">
+              <ng-container>
+                <app-svg-component [svgType]="item.svg"></app-svg-component>
+              </ng-container>
+              <small
+                dir="ltr"
+                class="text-black text-[8px] font-normal font-['Monstrate'] leading-[10px] pt-2"
+                >{{ item.kms
+                }}{{
+                  "
+                                km"
+                }}</small
+              >
+            </div>
+          </ng-container>
+        </div>
+        <div class="pt-5">
+          <!-- <p
+            class="title {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "location" | translate }}
+          </p> -->
+        </div>
+        <div>
+          <ng-container *ngTemplateOutlet="map_view_data"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tenant_card_profile let-data="valueToPass">
+  <div class="p-4">
+    <div
+      class="form-header  {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+    >
+      {{ data.title | translate }}
+    </div>
+    <div class="form-header-profile pt-4">
+      <div style="display: flex; justify-content: space-around; width: 100%">
+        <div class="px-8" >
+          <img
+            [src]="data.imgsrc || '../../../assets/dummy_dp/dp_dummy.jpg'"
+            alt="Description of the image"
+          />
+        </div>
+
+        <div class="personal-info-card">
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[90px]'
+                  : 'font-Bukrasm text-right  w-[140px]'
+              }}  "
+            >
+              {{ "name" | translate }} :
+            </p>
+            <p class="personal-info-font-result ps-2 font-['Monstrate']">
+              {{ data.name }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[90px]'
+                  : 'font-Bukrasm text-right  w-[140px]'
+              }}"
+            >
+              {{ "mobile" | translate }} :
+            </p>
+            <p
+              style="direction: ltr"
+              class="personal-info-font-result ps-2 font-['Monstrate']"
+            >
+              {{ data.mobile }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[90px]'
+                  : 'font-Bukrasm text-right  w-[140px]'
+              }}"
+            >
+              {{ "email" | translate }} :
+            </p>
+            <p class="personal-info-font-result ps-2 font-['Monstrate']">
+              {{ data.email }}
+            </p>
+          </div>
+          <div>
+            <p
+              class="personal-info-font {{
+                direction == 'en'
+                  ? 'font-Monstrate text-left w-[90px]'
+                  : 'font-Bukrasm text-right  w-[140px]'
+              }}"
+            >
+              {{ "location" | translate }} :
+            </p>
+            <p class="personal-info-font-result ps-2 font-['Monstrate']">
+              {{ data.location }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #server_ft_bar>
+  <div
+    class="w-[414px] h-[42px] bg-white border border-blue-900 mb-2 flex justify-between"
+  >
+    <div
+      class="w-[50px] h-10 bg-white border-r-[1px] border-b-0 border-l-[1px] border-blue-900 flex justify-center items-center"
+    >
+      <img src="../../../assets/images/filter/Icon.png" alt="" />
+    </div>
+
+    <input
+      type="text"
+      class="border focus:border-transparent focus:outline-none w-[390px] px-2
+      {{
+        direction == 'en' ? 'font-Monstrate' :'font-Bukrareg'
+      }} "
+      #searchft_
+      placeholder="{{ 'search for username,mobile,city' | translate }}"
+      (keyup.enter)="searchft(searchstr)"
+      [(ngModel)]="searchstr"
+    />
+
+    <div
+      (click)="appliedft ? resetgrid() : searchft(searchstr)"
+      [title]="appliedft ? 'clear filter' : 'search'"
+      class="w-[50px] h-10 bg-white border-l-[1px] border-r-[1px] border-b-0 cursor-pointer border-blue-900 flex justify-center items-center"
+    >
+      <i
+        [ngClass]="appliedft ? 'bi bi-x-circle' : 'bi bi-search'"
+        style="font-size: 1.2rem; color: var(--refatheme); font-weight: 500"
+      ></i>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #map_view_data>
+  <div
+    class="text-black col-span-4 text-[15px] font-semibold {{
+      direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+    }} mt-[2%] "
+  >
+    {{ "location" | translate }}
+  </div>
+  <div class="map-container">
+    <app-open-layer [latitude_longitude]="tenant_description?.location_detail">
+    </app-open-layer>
+  </div>
+</ng-template>
+
+<ng-template #inner_grid>
+  <app-dc-component
+    [whereCondition]="innerGrid_wr"
+    [GridInfo]="GridInfo.fullgrid"
+    [loader]="true"
+  >
+  </app-dc-component>
+</ng-template>
+
+<!-- <app-open-layer [latitude_longitude]="tenant_description?.location_detail"></app-open-layer> -->

@@ -1,0 +1,63 @@
+@if (selected_skel=='grid') {
+<ng-container>
+    <ng-container [ngTemplateOutlet]="grid_loader"> </ng-container>
+</ng-container>
+}
+@else if(selected_skel == 'pdf_loader'){
+<ng-container>
+    <ng-container [ngTemplateOutlet]="pdf_loader_rounded"> </ng-container>
+</ng-container>
+
+}
+
+
+<ng-template #pdf_loader_rounded>
+    <div class="pdf-loader-parent">
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+
+
+
+<ng-template #grid_loader>
+    <div class="grid-skeleton" *ngIf="selected_skel=='grid'">
+        <main>
+            <ul class="o-vertical-spacing o-vertical-spacing--l">
+                <li class="blog-post o-media">
+                    <div class="o-media__body">
+                        <div class="o-vertical-spacing">
+                            <h3 class="blog-post__headline">
+                                <span class="skeleton-box tt-bar" style="width:100%;"></span>
+                            </h3>
+                            <p>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+                                <span class="skeleton-box" style="width:100%;"></span>
+
+                            </p>
+                            <div class="blog-post__meta">
+                                <span class="skeleton-box tt-bar" style="width:100%;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </main>
+    </div>
+</ng-template>

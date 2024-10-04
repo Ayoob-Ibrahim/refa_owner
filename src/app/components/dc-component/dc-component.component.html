@@ -1,0 +1,52 @@
+<!-- <section style="margin: 5px">
+  <div class="example-button-row" *ngIf="dataDownlader">
+    <div style="display: flex !important" class="example-flex-container">
+      <div style="margin-left: 5px" class="example-button-container">
+        <button
+          (click)="newfunc('excel')"
+          style="
+            border-radius: 25px !important;
+            text-align: center;
+            padding: 5px !important;
+          "
+          mat-mini-fab
+          aria-label="Example icon button with a home icon"
+        >
+          <i class="bi bi-file-earmark-excel"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section> -->
+<div
+  [style.height]="gridHeight"
+  [style.width]="'100%'"
+  style="position: relative"
+>
+  <div
+    [class]="GridInfo ? GridInfo.setClass : 'normalGrid'"
+    style="height: 100%; position: absolute; top: 0; width: 100%"
+  >
+    <jqxGrid
+      [source]="source"
+      height="100%"
+      [width]="'99.5%'"
+      [enabletooltips]="true"
+      [columnsresize]="true"
+      [filterable]="true"
+      [sortable]="true"
+      [autoheight]="false"
+      [theme]="'material'"
+      [pageable]="GridInfo?.setClass != 'racDashboard'"
+      [altrows]="true"
+      [columns]="columns"
+      #grid
+      [columngroups]="columngroups"
+      (onCellclick)="cellClickRow($event)"
+      [pagesize]="GridInfo ? GridInfo.rows : 10"
+      [pagerheight]="35"
+      [columnsheight]="35"
+    >
+    </jqxGrid>
+  </div>
+</div>

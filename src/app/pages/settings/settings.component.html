@@ -1,0 +1,807 @@
+<div class="container mx-auto py-4">
+  <p-toast />
+  <ng-container *ngTemplateOutlet="settings_page"></ng-container>
+</div>
+
+<ng-template #settings_page>
+  <ng-container *ngTemplateOutlet="settings_title"></ng-container>
+  <ng-container *ngTemplateOutlet="settings_container"></ng-container>
+</ng-template>
+
+<ng-template #settings_title>
+  <ng-container>
+    <ng-container
+      *ngTemplateOutlet="
+        request_header_list;
+        context: { valueToPass: headerMenu.list }
+      "
+    ></ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #request_header_list let-item="valueToPass">
+  <div class="flex">
+    <div
+      *ngFor="let a of item; let i = index"
+      (click)="selectedIndex.set(i)"
+      class="text-center text-black text-[13px] font-bold {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} uppercase w-fit mr-3 pb-[5px] cursor-pointer
+        {{
+        i === selectedIndex()
+          ? 'border-b-2 border-blue-900'
+          : 'border-b border-black'
+      }}"
+    >
+      <div style="padding: 0% 20px">{{ a.name | translate }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #settings_container>
+  <div class="border border-blue-900 p-4 rounded-[0.3rem] h-[85vh] mt-3">
+    @switch (this.selectedIndex()) { @case (0) {
+    <ng-container *ngTemplateOutlet="profile_form"></ng-container>
+    } @case (1) {
+    <ng-container *ngTemplateOutlet="management"></ng-container>
+    } @case (2) {
+    <ng-container *ngTemplateOutlet="notification_tab"></ng-container>
+    } }
+  </div>
+</ng-template>
+
+<ng-template #notification_tab>
+  <div class="notification">
+    <ng-container *ngFor="let item of content_notification">
+      <ng-container
+        *ngTemplateOutlet="
+          notif_template_content;
+          context: {
+            valueToPass: {
+              title: item.title,
+              content: item.content,
+              selction: item.selection
+            }
+          }
+        "
+      ></ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #notif_template_content let-data="valueToPass">
+  <div class="flex">
+    <div class="w-2/3 p-4">
+      <p class="noti-title font-['Monstrate']">{{ data.title }}</p>
+      <p class="noti-content">
+        {{ data.content }}
+      </p>
+    </div>
+    <div class="w-1/3 p-4 class-btn">
+      <div class="btn-group">
+        <button
+          [ngClass]="
+            data.selction == 'instant'
+              ? 'back-color-selected'
+              : 'back-color-unselected'
+          "
+        >
+          INSTANLY
+        </button>
+        <button
+          [ngClass]="
+            data.selction == 'week'
+              ? 'back-color-selected'
+              : 'back-color-unselected'
+          "
+        >
+          DAILY
+        </button>
+        <button
+          [ngClass]="
+            data.selction == 'day'
+              ? 'back-color-selected'
+              : 'back-color-unselected'
+          "
+        >
+          WEEKLY
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #profile_form>
+  <div class="proflie-container" #form_parent_>
+    <div class="profile-title" [appDirection]="direction">
+      <p
+        class="{{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }} text-[#0c1892]"
+      >
+        {{ "profile_information" | translate }}
+      </p>
+      <span
+        class="closeModal_X {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+        title="Close"
+        (click)="enablng_edit('isEdit', 'btn-apply')"
+        [style]="direction == 'en' ? 'right: 20px;' : 'left:20px'"
+        >{{ "edit" | translate }}</span
+      >
+    </div>
+    <div class="profile-information-form">
+      <div class="pl-6">
+        <div class="grid grid-cols-3">
+          <div class="p-1">
+            <div class="agent-assessment-form">
+              <div
+                class="agent-assessment-input-label {{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }}"
+              >
+                {{ "name" | translate }}:
+              </div>
+              <input
+                name="username"
+                class="agent-assessment-input bottom-margin"
+                type="text"
+                [disabled]="isEdit ? true : null"
+                required
+                appErrorMessage
+                [ngStyle]="
+                  isEdit && {
+                    'border-color': ' rgba(128, 128, 128, 0.371)',
+                    'background-color': ' rgba(128, 128, 128, 0.371) '
+                  }
+                "
+                [(ngModel)]="form_data.username"
+              />
+            </div>
+          </div>
+          <div>
+            <div class="p-1">
+              <div class="agent-assessment-form">
+                <div
+                  class="agent-assessment-input-label {{
+                    direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                  }}"
+                >
+                  {{ "mobile" | translate }}:
+                </div>
+                <input
+                  name="username"
+                  class="agent-assessment-input bottom-margin"
+                  type="text"
+                  [(ngModel)]="form_data.mobile"
+                  [disabled]="isEdit ? true : null"
+                  required
+                  appErrorMessage
+                  [ngStyle]="
+                    isEdit && {
+                      'border-color': ' rgba(128, 128, 128, 0.371)',
+                      'background-color': ' rgba(128, 128, 128, 0.371) '
+                    }
+                  "
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="p-1">
+              <div class="agent-assessment-form">
+                <div
+                  class="agent-assessment-input-label {{
+                    direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                  }}"
+                >
+                  {{ "email" | translate }}:
+                </div>
+                <input
+                  name="username"
+                  class="agent-assessment-input bottom-margin"
+                  type="text"
+                  [(ngModel)]="form_data.email"
+                  [disabled]="isEdit ? true : null"
+                  required
+                  appErrorMessage
+                  [ngStyle]="
+                    isEdit && {
+                      'border-color': ' rgba(128, 128, 128, 0.371)',
+                      'background-color': ' rgba(128, 128, 128, 0.371) '
+                    }
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <p
+          class="sub-title agency-name-address {{
+            direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+          }}"
+        >
+          {{ "address" | translate }} :
+        </p>
+        <div class="grid grid-cols-2">
+          <div class="p-1">
+            <div class="agent-assessment-form">
+              <div
+                class="agent-assessment-input-label {{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }}"
+              >
+                {{ "line1" | translate }}:
+              </div>
+              <input
+                name="username"
+                class="agent-assessment-input bottom-margin"
+                type="text"
+                [disabled]="isEdit ? true : null"
+                required
+                appErrorMessage
+                [(ngModel)]="form_data.line1"
+                [ngStyle]="
+                  isEdit && {
+                    'border-color': ' rgba(128, 128, 128, 0.371)',
+                    'background-color': ' rgba(128, 128, 128, 0.371) '
+                  }
+                "
+              />
+            </div>
+          </div>
+          <div class="p-1">
+            <div class="agent-assessment-form">
+              <div
+                class="agent-assessment-input-label {{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }}"
+              >
+                {{ "line2" | translate }}:
+              </div>
+              <input
+                name="username"
+                class="agent-assessment-input bottom-margin"
+                type="text"
+                style="width: 93%"
+                [disabled]="isEdit ? true : null"
+                required
+                appErrorMessage
+                [(ngModel)]="form_data.line2"
+                [ngStyle]="
+                  isEdit && {
+                    'border-color': ' rgba(128, 128, 128, 0.371)',
+                    'background-color': ' rgba(128, 128, 128, 0.371) '
+                  }
+                "
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2">
+          <div class="p-1">
+            <div class="agent-assessment-form">
+              <div
+                class="agent-assessment-input-label {{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }}"
+              >
+                {{ "building" | translate }}:
+              </div>
+              <input
+                name="username"
+                class="agent-assessment-input bottom-margin"
+                type="text"
+                [disabled]="isEdit ? true : null"
+                [(ngModel)]="form_data.building"
+                required
+                appErrorMessage
+                [ngStyle]="
+                  isEdit && {
+                    'border-color': ' rgba(128, 128, 128, 0.371)',
+                    'background-color': ' rgba(128, 128, 128, 0.371) '
+                  }
+                "
+              />
+            </div>
+          </div>
+
+          <div class="p-1">
+            <div class="agent-assessment-form">
+              <div
+                class="agent-assessment-input-label {{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }}"
+              >
+                {{ "province" | translate }}:
+              </div>
+              <select
+                name="username"
+                class="agent-assessment-input font-['Monstrate']"
+                [(ngModel)]="form_data.province"
+                (ngModelChange)="filterCity($event)"
+                [attr.disabled]="isEdit"
+                [disabled]="isEdit ? true : null"
+                [ngStyle]="
+                  isEdit && {
+                    'border-color': ' rgba(128, 128, 128, 0.371)',
+                    'background-color': ' rgba(128, 128, 128, 0.371) '
+                  }
+                "
+              >
+                <option
+                  *ngFor="let a of list_province"
+                  [value]="direction=='en' ?a.province_name['en']:a.province_name['Ar']"
+                >
+                  <!-- {{ a.province_name }} -->
+                  {{direction=='en' ?a.province_name["en"]:a.province_name["Ar"] }}
+                </option>
+              </select>
+              <!-- <input name="username" class="agent-assessment-input bottom-margin" type="text"
+                                [disabled]="isEdit ? true : null" required appErrorMessage
+                                [(ngModel)]="form_data.province"
+                                [ngStyle]="isEdit && {   'border-color':' rgba(128, 128, 128, 0.371)', 'background-color': ' rgba(128, 128, 128, 0.371) '}" /> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 pb-5Q">
+          <div class="p-1">
+            <div class="agent-assessment-form">
+              <div
+                class="agent-assessment-input-label {{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }}"
+              >
+                {{ "city" | translate }}:
+              </div>
+              <select
+                name="username"
+                class="agent-assessment-input font-['Monstrate']"
+                [(ngModel)]="form_data.city_name"
+                [attr.disabled]="isEdit"
+                [disabled]="isEdit ? true : null"
+                [ngStyle]="
+                  isEdit && {
+                    'border-color': ' rgba(128, 128, 128, 0.371)',
+                    'background-color': ' rgba(128, 128, 128, 0.371) '
+                  }
+                "
+              >
+                <option value="a">Select the city field</option>
+
+                <option *ngFor="let a of list_cites "[value]="direction=='en' ?a.city_name['en']:a.city_name['Ar']">
+                  {{direction=='en' ?a.city_name["en"]:a.city_name["Ar"] }}
+                  <!-- {{ a.city_name }} -->
+                </option>
+              </select>
+
+              <!-- <input name="username" class="agent-assessment-input bottom-margin" type="text"
+                                style="width: 93%;" [disabled]="isEdit ? true : null" required appErrorMessage
+                                [(ngModel)]="form_data.city_name"
+                                [ngStyle]="isEdit && {   'border-color':' rgba(128, 128, 128, 0.371)', 'background-color': ' rgba(128, 128, 128, 0.371) '}" /> -->
+            </div>
+          </div>
+          <div class="p-1">
+            <div class="agent-assessment-form">
+              <div
+                class="agent-assessment-input-label {{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }}"
+              >
+                {{ "country" | translate }}:
+              </div>
+              <select
+                name="username"
+                class="agent-assessment-input font-['Monstrate']"
+                [(ngModel)]="form_data.country_name"
+                [attr.disabled]="isEdit"
+                [disabled]="isEdit ? true : null"
+                [ngStyle]="
+                  isEdit && {
+                    'border-color': ' rgba(128, 128, 128, 0.371)',
+                    'background-color': ' rgba(128, 128, 128, 0.371) '
+                  }
+                "
+              >
+                <option
+                  *ngFor="let a of list_countreis"
+                  [value]="a.country_name"
+                  [selected]="form_data.country_name"
+                >
+                  {{direction=='en' ?a.country_name["en"]:a.country_name["Ar"] }}
+                </option>
+              </select>
+
+              <!-- <input class="agent-assessment-input bottom-margin" type="text"
+                                [disabled]="isEdit ? true : null" required appErrorMessage
+                                [(ngModel)]="form_data.country_name"
+                                [ngStyle]="isEdit && {   'border-color':' rgba(128, 128, 128, 0.371)', 'background-color': ' rgba(128, 128, 128, 0.371) '}" /> -->
+            </div>
+          </div>
+          <div class="p-1">
+            <div class="agent-assessment-form">
+              <div
+                class="agent-assessment-input-label {{
+                  direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                }}"
+              >
+                {{ "postalCode" | translate }}:
+              </div>
+              <input
+                name="username"
+                class="agent-assessment-input bottom-margin"
+                type="text"
+                [disabled]="isEdit ? true : null"
+                required
+                appErrorMessage
+                [(ngModel)]="form_data.pcode"
+                [ngStyle]="
+                  isEdit && {
+                    'border-color': ' rgba(128, 128, 128, 0.371)',
+                    'background-color': ' rgba(128, 128, 128, 0.371) '
+                  }
+                "
+              />
+            </div>
+          </div>
+        </div>
+
+        <p
+          class="capitalize sub-title agency-name-address {{
+            direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+          }} w-fit"
+          (click)="enablng_edit('ispassword', 'btn-apply')"
+        >
+          {{ "change_password" | translate }}
+        </p>
+        <ng-container *ngIf="!ispassword">
+          <div class="grid grid-cols-2">
+            <div class="p-1">
+              <div class="agent-assessment-form relative">
+                <div
+                  class="agent-assessment-input-label {{
+                    direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                  }}"
+                >
+                  {{ "new_password" | translate }} :
+                </div>
+                <input
+                  name="username"
+                  class="agent-assessment-input bottom-margin"
+                  type="text"
+                  required
+                  appPasswordVerification
+                  [(ngModel)]="form_data.password"
+                />
+              </div>
+            </div>
+
+            <div class="p-1">
+              <div class="agent-assessment-form">
+                <div
+                  class="agent-assessment-input-label {{
+                    direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                  }}"
+                >
+                  {{ "confirm_password" | translate }}:
+                </div>
+                <input
+                  name="username"
+                  class="agent-assessment-input bottom-margin"
+                  type="password"
+                  required
+                  [(ngModel)]="form_data.c_password"
+                  style="width: 93%"
+                />
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngTemplateOutlet="last_updatedon"></ng-container>
+        <ng-template #last_updatedon>
+          <div
+            class="text-right mr-[4%] {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            <small
+              class="{{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+              }}"
+              >{{ "last_updated_on" | translate }}
+              {{ form_data?.updated_on }}</small
+            >
+          </div>
+        </ng-template>
+        <ng-container *ngIf="!isEdit || !ispassword; then save_changes_button">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #subheader let-items="valueToPass">
+  <div class="flex">
+    <div
+      *ngFor="let a of items; let i = index"
+      (click)="selectedSubIndex.set(i)"
+      class="text-center text-black text-[13px] font-bold uppercase w-fit mr-3 pb-[5px] cursor-pointer
+        {{
+        i === selectedSubIndex()
+          ? 'border-b-2 border-blue-900'
+          : 'border-b border-black'
+      }} {{
+        direction == 'en'  ? 'font-Monstrate' :  'font-Bukrasm'
+    }}  "
+    >
+      <div style="padding: 0% 20px">{{ a.name | translate }}</div>
+    </div>
+    <div
+      *ngIf="selectedSubIndex() == 1"
+      (click)="editCategory()"
+      class="flex items-center"
+    >
+      <span
+        class="text-center text-[#0c1892] text-[13px] font-bold uppercase {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+        title="Close"
+        [style]="direction == 'en' ? 'right: 72px;' : 'left:72px'"
+        style="position: absolute; cursor: pointer"
+        >{{ "edit" | translate }}</span
+      >
+      <app-svg-component
+        [style]="direction == 'en' ? 'right: 50px;' : 'left:50px'"
+        style="position: absolute"
+        [svgType]="'edit'"
+      ></app-svg-component>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #management>
+  <ng-container
+    *ngTemplateOutlet="subheader; context: { valueToPass: headerMenu.submenu }"
+  >
+  </ng-container>
+
+  <ng-container *ngIf="selectedSubIndex() == 0; else property">
+    <ng-container *ngTemplateOutlet="payemnt_tab"></ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #save_changes_button>
+  <div class="text-right" id="btn-apply">
+    <button
+      class="{{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} class-button"
+      (click)="ispassword = true; isEdit = true; get_admin_()"
+    >
+      {{ "cancel" | translate }}
+    </button>
+    <button
+      class="approve-btn {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} class-button approve-btn"
+      (click)="applychanges()"
+    >
+      {{ "apply" | translate }}
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #payemnt_tab>
+  <div class="p-8 payment-template">
+    <div class="flex w-full mt-4 h-[8vh]">
+      <div
+        class="w-4/5 p-4 bg-[#0c1892] text-[white] {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+      >
+        {{ "details" | translate }}
+      </div>
+      <div
+        class="w-1/5 p-4 bg-[#0c1892] text-[white] ps-2 relative {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+      >
+        {{ "amount" | translate }}
+        <i class="bi bi-gear" (click)="isPayment = !isPayment"></i>
+        <i
+          *ngIf="!isPayment"
+          class="bi bi-cloud-upload-fill"
+          title="save changes"
+          (click)="save_ejar_fee(this.ejarfess)"
+        ></i>
+      </div>
+    </div>
+    <div class="flex w-full mt-4 h-[8vh]">
+      <div
+        class="w-4/5 p-4 bg-gray-200 text-[black] {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+      >
+        {{ "ejar_fee" | translate }}
+      </div>
+      <div class="w-1/5 pr-2 pt-2 pe-4 bg-gray-200 text-[black] ps-2">
+        <input
+          [type]="isPayment ? 'text' : 'number'"
+          class="inputclass"
+          [disabled]="isPayment ? true : false"
+          [ngClass]="{ inputdisabled: isPayment }"
+          [ngModel]="getpaymentview('ejar')"
+          (ngModelChange)="setpaymentvalue($event, 'ejar')"
+        />
+        <ng-container *ngIf="!isPayment">{{ " " + "SAR" }}</ng-container>
+      </div>
+    </div>
+    <div class="flex w-full mt-4 h-[8vh]">
+      <div
+        class="w-4/5 p-4 bg-gray-200 text-[black] {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+      >
+        {{ "agent_fee_total_rent" | translate }}
+      </div>
+      <div class="w-1/5 pr-2 pt-2 pe-4 bg-gray-200 text-[black] ps-2">
+        <input
+          [type]="isPayment ? 'text' : 'number'"
+          class="inputclass"
+          [disabled]="isPayment ? true : false"
+          [ngClass]="{ inputdisabled: isPayment }"
+          [ngModel]="getpaymentview('agentfee')"
+          (ngModelChange)="setpaymentvalue($event, 'agentfee')"
+        />
+        <ng-container *ngIf="!isPayment">%</ng-container>
+      </div>
+    </div>
+    <div class="flex w-full mt-4 h-[8vh]">
+      <div
+        class="w-4/5 p-4 bg-gray-200 text-[black] {{
+          direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+        }}"
+      >
+        {{ "refa_processing_fee" | translate }}
+      </div>
+      <div class="w-1/5 pr-2 pt-2 pe-4 bg-gray-200 text-[black] ps-2">
+        <input
+          [type]="isPayment ? 'text' : 'number'"
+          class="inputclass"
+          [disabled]="isPayment ? true : false"
+          [ngClass]="{ inputdisabled: isPayment }"
+          [ngModel]="getpaymentview('refafee')"
+          (ngModelChange)="setpaymentvalue($event, 'refafee')"
+        />
+        <ng-container *ngIf="!isPayment">{{ " " + "SAR" }}</ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #property>
+  <div class="pt-2 pl-2 h-[97%] overflow-y-scroll">
+    <div class="flex w-full mt-4 h-[8vh]">
+      <div class="text-black text-2xl font-semibold {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrareg'
+      }} ">
+        {{"PROPERTY DETAILS" | translate}}
+      </div>
+    </div>
+    <div dir="ltr" class="ml-2">
+      <ng-container
+        *ngTemplateOutlet="
+          treeTemplate;
+          context: { $implicit: treeData['value'] }
+        "
+      ></ng-container>
+
+      <ng-template
+        #treeTemplate
+        let-node
+        let-i="index"
+        let-len="length"
+        let-parent="parent"
+      >
+        <ul
+          [ngStyle]="{
+            'border-left': i < len - 1 ? '1px solid black' : 'none'
+          }"
+        >
+          <li style="display: flex">
+            <span class="dot_"></span>
+            <div
+              class="text-black text-base font-semibold font-['Monstrate'] capitalize leading-tight"
+              style="
+                position: relative;
+                bottom: 11px;
+                right: 17px;
+                width: 112px;
+                height: 75px;
+              "
+            >
+              {{ node.name }}
+            </div>
+
+            <div
+              *ngIf="node.name != 'Category'"
+              (click)="onDeleteClick(node, parent)"
+              class="bg-[#c1c1c1] bottom: 11px;"
+              style="
+                height: 20px;
+                width: 20px;
+                position: relative;
+                bottom: 11px;
+                right: 17px;
+                text-align: center;
+                cursor: pointer;
+              "
+            >
+              <i style="color: #000" class="bi bi-dash"></i>
+            </div>
+
+            <div
+              (click)="addCat(i, node.name)"
+              class="bg-[#00e4b3] bottom: 11px;"
+              style="
+                cursor: pointer;
+                height: 20px;
+                width: 20px;
+                margin-left: 10px;
+                border-radius: 20px;
+                position: relative;
+                bottom: 11px;
+                text-align: center;
+                right: 17px;
+              "
+            >
+              <i style="color: white" class="bi bi-plus"></i>
+            </div>
+
+            <!-- Check if there are children and render them recursively -->
+            <ng-container *ngIf="node.children?.length > 0">
+              <ul style="margin-top: 50px">
+                <li
+                  *ngFor="
+                    let child of node.children;
+                    let i = index;
+                    let len = last
+                  "
+                >
+                  <ng-container
+                    *ngTemplateOutlet="
+                      treeTemplate;
+                      context: {
+                        $implicit: child,
+                        index: i,
+                        length: node.children.length,
+                        parent: node
+                      }
+                    "
+                  ></ng-container>
+                </li>
+              </ul>
+            </ng-container>
+          </li>
+        </ul>
+      </ng-template>
+    </div>
+    <ng-container *ngTemplateOutlet="buttonsforcat"> </ng-container>
+  </div>
+</ng-template>
+<ng-template #buttonsforcat>
+  <div *ngIf="editCat" class="text-right">
+    <button
+      style="outline: 0px solid var(--refatheme)"
+      class="font-['Monstrate']"
+      (click)="cancelCat()"
+    >
+      CANCEL
+    </button>
+    <button (click)="saveCat()" class="approve-btn font-['Monstrate']">
+      SAVE
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,984 @@
+<!-- TOTAL COMPONENTS -->
+<p-toast />
+<div class="container mx-auto py-4">
+  <ng-container *ngTemplateOutlet="list_agencies_user"></ng-container>
+</div>
+
+<!-- TOTAL CONTENT HEADER AND  MAIN CONTENT -->
+
+<ng-template #list_agencies_user>
+  <ng-container *ngTemplateOutlet="list_title"></ng-container>
+  <ng-container *ngTemplateOutlet="list_container_grid_form"></ng-container>
+</ng-template>
+
+<!-- TAB HEADER DECICIDER-->
+
+<ng-template #list_title>
+  <ng-container *ngIf="abcd_grid_show; else formtitle">
+    <ng-container
+      *ngTemplateOutlet="
+        list_of_header;
+        context: { valueToPass: headerMenu.list }
+      "
+    ></ng-container>
+  </ng-container>
+  <ng-template #formtitle>
+    <ng-container
+      *ngTemplateOutlet="
+        list_of_header;
+        context: { valueToPass: headerMenu.form }
+      "
+    ></ng-container>
+  </ng-template>
+</ng-template>
+
+<!-- TAB HEADER -->
+
+<ng-template #list_of_header let-item="valueToPass">
+  <div class="flex">
+    <div
+      *ngFor="let a of item; let i = index"
+      (click)="selectedIndex.set(i)"
+      class="text-center text-black text-[13px] font-bold {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} uppercase w-[210px] mr-3 pb-[5px] cursor-pointer
+        {{
+        i === selectedIndex()
+          ? 'border-b-2 border-blue-900'
+          : 'border-b border-black'
+      }}"
+    >
+      {{ a.name | translate }}
+    </div>
+  </div>
+</ng-template>
+
+<!-- MAIN CONTENT CONTAINER -->
+
+<ng-template #list_container_grid_form>
+  <!-- border border-blue-900 -->
+  <div class="h-[79vh] w-[100%] mt-2">
+    <ng-container
+      *ngIf="
+        abcd_grid_show;
+        then grid_with_ft;
+        else agencies_approval_list_form
+      "
+    ></ng-container>
+  </div>
+</ng-template>
+
+<!-- GRID DATA TEMPLATE -->
+
+<ng-template #grid_with_ft>
+  <ng-container *ngTemplateOutlet="server_ft_bar"></ng-container>
+  <ng-container *ngIf="!gridloader; else loader">
+    <ng-container *ngIf="0 === selectedIndex()">
+      <ng-container
+        *ngTemplateOutlet="abcd_grid; context: { valueToPass: abcd_grid_wr }"
+      ></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="1 === selectedIndex()">
+      <ng-container
+        *ngTemplateOutlet="abcd_grid; context: { valueToPass: abcd_grid_wr }"
+      ></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="2 === selectedIndex()">
+      <ng-container
+        *ngTemplateOutlet="abcd_grid; context: { valueToPass: abcd_grid_wr }"
+      ></ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-template #loader>
+    <div>
+      <app-skeleton [skelton_type]="'grid'"></app-skeleton>
+    </div>
+  </ng-template>
+</ng-template>
+
+<ng-template #abcd_grid let-data="valueToPass">
+  <ng-container>
+    <app-dc-component
+      [whereCondition]="data"
+      (abcd_data_emit)="abcd_data_emit($event)"
+      [GridInfo]="GridInfo.fullgrid"
+    >
+    </app-dc-component>
+  </ng-container>
+</ng-template>
+
+<!-- FORM DATA TEMPALTE -->
+
+<ng-template #agencies_approval_list_form>
+  <div class="border border-blue-900">
+    <ng-container
+      *ngIf="
+        selectedIndex() == 0;
+        then approval_form;
+        else list_agencies_form_description
+      "
+    ></ng-container>
+  </div>
+</ng-template>
+
+<!-- APPROVAL FORM TEMPLATE -->
+<ng-template #approval_form>
+  <div class="agent-container">
+    <div class="agent-title-content ps-7 pt-8 pb-2 {{
+      direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+    }}">
+     {{"profile_information"| translate}}
+    </div>
+    <!-- <span
+      class="closeModal_X"
+      (click)="closeform()"
+      title="Close"
+      [style]="direction == 'ar' ? 'right: 10px;top:5px' : 'left:10px;top:5px'"
+    >
+      <i
+        class="bi {{
+          direction == 'en' ? ' bi-arrow-left' : ' bi-arrow-right'
+        }} text-[25px]"
+      ></i
+    ></span> -->
+    <ng-container *ngTemplateOutlet="back_arrow_blue"> </ng-container>
+
+    <ng-template #back_arrow_blue>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_blue'"
+      ></app-svg-component>
+    </ng-template>
+
+    <ng-template #back_arrow_black>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_black'"
+      ></app-svg-component>
+    </ng-template>
+    <div class="agent-container-data">
+      <ng-container *ngTemplateOutlet="approval_list_form_template_">
+      </ng-container>
+      <ng-container *ngTemplateOutlet="approval_form_template_button">
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<!-- LIST AGENCIES FORM AND LIST AGENCIES DESCRIPTION TEMPLATE -->
+<ng-template #list_agencies_form_description>
+  <ng-container
+    *ngIf="
+      !description_template;
+      then list_agencies_form;
+      else list_agencies_description
+    "
+  ></ng-container>
+</ng-template>
+
+<!-- LIST AGENCIES FORM -->
+<ng-template #list_agencies_form>
+  <div class="agent-container">
+    <div
+      class="agent-title-content ps-7 pt-8 {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} pb-2"
+    >
+      {{ "general_information" | translate }}:
+    </div>
+    <!-- <span
+      class="closeModal_X"
+      (click)="closeform()"
+      title="Close"
+      [style]="direction == 'ar' ? 'right: 10px;top:0px' : 'left:10px;top:0px'"
+    >
+      <i
+        class="bi {{
+          direction == 'en' ? ' bi-arrow-left' : ' bi-arrow-right'
+        }} text-[25px]"
+      ></i
+    ></span> -->
+    <ng-container *ngTemplateOutlet="back_arrow_black"> </ng-container>
+
+    <ng-template #back_arrow_blue>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_blue'"
+      ></app-svg-component>
+    </ng-template>
+
+    <ng-template #back_arrow_black>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_black'"
+      ></app-svg-component>
+    </ng-template>
+    <div class="agent-container-data">
+      <ng-container *ngTemplateOutlet="approval_list_form_template_">
+      </ng-container>
+      <ng-container *ngIf="selectedIndex() == 1">
+        <ng-container *ngTemplateOutlet="list_of_properties"> </ng-container>
+      </ng-container>
+      <ng-container *ngTemplateOutlet="list_agencies_suspend"> </ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<!-- FORM TEMPLATE BASICS -->
+<ng-template #approval_list_form_template_>
+  <div class="agent-container-img ps-10 pb-10">
+    <img
+      class="inline-block"
+      [src]="form_data?.profile_pic || '../../../assets/dummy_dp/dp_dummy.jpg'"
+    />
+    <div
+      class="inline-block class-agent-head pt-2"
+      [style]="direction == 'en' ? '  left: 13%;' : '  right: 13%;'"
+    >
+      <div style="font-size: 22px; font-weight: 500" class=" px-3 {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }} ">
+        {{ form_data?.username }}
+      </div>
+      <p style="font-weight: 400; margin-top: 10px" class="px-3 {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrareg'
+      }} "  >
+        {{( form_data?.usertype )|translate}}
+      </p>
+    </div>
+  </div>
+  <div class="pl-6">
+    <div class="grid grid-cols-3">
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "agency_name" | translate }}:
+          </div>
+          <input
+            name="username"
+            class="agent-assessment-input"
+            type="text"
+            [attr.disabled]="true"
+            [value]="form_data?.username"
+          />
+        </div>
+      </div>
+      <div>
+        <div class="p-1">
+          <div class="agent-assessment-form">
+            <div
+              class="agent-assessment-input-label {{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+              }}"
+            >
+              {{ "mobile" | translate }}:
+            </div>
+            <input
+              style="direction: ltr"
+              name="username"
+              class="agent-assessment-input {{
+                direction == 'en' ? '' : 'text-right'
+              }}"
+              type="text"
+              [value]="form_data?.mobile"
+              [attr.disabled]="true"
+            />
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="p-1">
+          <div class="agent-assessment-form">
+            <div
+              class="agent-assessment-input-label {{
+                direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+              }}"
+            >
+              {{ "email" | translate }}:
+            </div>
+            <input
+              name="username"
+              class="agent-assessment-input"
+              type="text"
+              [value]="form_data?.email"
+              [attr.disabled]="true"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-3">
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{
+              form_data?.usertype == "Owner"
+                ? ("national_id" | translate)
+                : ("company_registration_id" | translate)
+            }}:
+            <!-- {{ }}: -->
+          </div>
+          <input
+            name="username"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['company_code']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{
+              (form_data?.usertype == "Owner"
+                ? "title_deed_id"
+                : "fal_license_id"
+              ) | translate
+            }}:
+          </div>
+          <input
+            name="username"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['fal_code']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{
+              (form_data?.usertype == "Owner"
+                ? "title_deed_document"
+                : "fal_license_document"
+              ) | translate
+            }}:
+          </div>
+          <div
+            class="download-btn {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }} "
+         (click)="isdocs=!isdocs"
+          >
+          <!-- (click)="doc_download(form_data?.['fal_docs'],'FAL license')" -->
+            <!-- {{form_data?.['fal_docs']}} -->
+            {{
+              form_data?.usertype == "Owner"
+                ? ("title_deed_document" | translate)
+                : ("fal_license_document" | translate)
+            }}
+             <i [ngClass]="isdocs ?  'bi bi-arrow-up-circle-fill' :   'bi bi-arrow-down-circle-fill'  "></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    @if (isdocs) {
+
+      <div  @myInsertRemoveTrigger >
+          <p class="capitalize  agent-assessment-form {{
+            direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+          }} " 
+              [appDirection]="direction">
+              {{'documents' |translate}}:</p>
+
+          <div class="grid grid-cols-4">
+              <ng-container *ngFor="let item of form_data?.['fal_docs'];let i =index">
+                  <div>
+                      <div class="agent-assessment-form" (click)="doc_download(item,'FAL license')">
+                          <div class="download-btn {{
+                            direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+                          }} ">
+                              {{
+                               form_data?.usertype == "Owner"
+              ? ("title_deed_document" | translate)
+              : ("fal_license_document" | translate)
+                              |translate}} - {{i+1}}
+                          </div>
+                      </div>
+                  </div>
+              </ng-container>
+          </div>
+
+      </div>
+      }
+
+
+    <div
+      class="capitalize sub-title {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+    >
+      {{ "agency_address" | translate }} :
+    </div>
+    <div class="grid grid-cols-2">
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "line1" | translate }}:
+          </div>
+          <input
+            name="username"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['line1']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "line2" | translate }}:
+          </div>
+          <input
+            name="username"
+            class="agent-assessment-input"
+            type="text"
+            style="width: 93%"
+            [value]="form_data?.['line2']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 pb-10">
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "city" | translate }}:
+          </div>
+          <input
+            name="username"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['city_name']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "country" | translate }}:
+          </div>
+          <input
+            name="username"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['country_name']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+      <!-- test -->
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "postalCode" | translate }}:
+          </div>
+          <input
+            name="username"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['pcode']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="capitalize sub-title {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+    >
+      {{ "bank_details" | translate }} :
+    </div>
+    <div class="grid grid-cols-3 pb-10">
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "account_no" | translate }}:
+          </div>
+          <input
+            name="ac_number"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['ac_number']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "bank_name" | translate }}:
+          </div>
+          <input
+            name="bank_name"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['bank_name']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+      <!-- test -->
+      <div class="p-1">
+        <div class="agent-assessment-form">
+          <div
+            class="agent-assessment-input-label {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "iban_no" | translate }}:
+          </div>
+          <input
+            name="iban_number"
+            class="agent-assessment-input"
+            type="text"
+            [value]="form_data?.['iban_number']"
+            [attr.disabled]="true"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- LIST OF PROPERTIES -->
+<ng-template #list_of_properties>
+  <div class="list_of_properties p-6" *ngIf="form_data?.['property_details']">
+    <div>
+      <div class="{{ direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm' }}">
+        {{ "list_of_properties" | translate }}
+      </div>
+    </div>
+    <div>
+      <ng-container *ngFor="let item of form_data?.['property_details']">
+        <ng-container
+          *ngTemplateOutlet="
+            properties_card_row;
+            context: { valueToPass: item }
+          "
+        >
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<!-- PROPERTIES CARD ROW -->
+<ng-template #properties_card_row let-data="valueToPass">
+  <div
+    class="{{
+      direction == 'en' ? 'properties-row-ltr' : 'properties-row-rtl'
+    }}"
+    (click)="property_review(data)"
+  >
+    <div class="w-1/2" style="display: flex">
+      <div>
+        <img [src]="data.updatedimg" />
+      </div>
+      <div
+        [ngStyle]="{
+          'margin-left': direction == 'en' ? '13%' : '0%',
+          'margin-right': direction == 'en' ? '0%' : '13%'
+        }"
+      >
+        <p class="font-['Monstrate']" style="margin-top: 15px">
+          {{ data.details.trim() }}
+        </p>
+        <small class="font-['Monstrate']">{{ data.address }} </small>
+        <div>
+          <div class="inline-block mt-3 me-2">
+            <app-svg-component
+              [svgType]="'sar_currency_form'"
+            ></app-svg-component>
+          </div>
+          <p class="currency-css inline-block font-['Monstrate']">
+            {{ data.rate }} SAR
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- APPROVAL FORM BUTTONS -->
+<ng-template #approval_form_template_button>
+  <div class="text-right">
+    <button
+      style="outline: 1px solid var(--refatheme)"
+      class="{{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+      (click)="openRejectModal(form_data['primaryid'], 'Reject', form_data)"
+    >
+    {{"reject"|translate}}
+    </button>
+    <button
+      class="approve-btn {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+      }}"
+      (click)="status_change(form_data['primaryid'], 'Active', form_data)"
+    >
+    {{"approve"|translate}}
+    </button>
+  </div>
+</ng-template>
+
+<!-- LIST OF AGENCIES SUSPEND -->
+<ng-template #list_agencies_suspend>
+  <div
+    *ngIf="selectedIndex() != 2"
+    [appDirection]="direction == 'en' ? 'ar' : 'en'"
+  >
+    <button
+      class="{{
+        direction == 'en' ? 'font-Monstrate' :'font-Bukrasm'
+      }}  "
+      (click)="user_susped(form_data)"
+      [ngClass]="form_data?.issuspend ? 'suspend-btn' : 'approve-btn'"
+      style="width: 200px !important; height: 50px; font-size: 16px !important"
+
+    >
+      {{ ((form_data?.issuspend) ? "unsuspend_user" : "suspend_user") |translate }} 
+     
+    </button>
+  </div>
+</ng-template>
+
+<!-- LIST AGENCIES DESCRIPTION -->
+<ng-template #list_agencies_description>
+  <div class="list-agencies-description">
+    <p
+      class="ps-7 pt-8 {{
+        direction == 'en' ? 'font-Monstrate' : 'font-Bukra'
+      }} pb-2 desc-para"
+    >
+      {{ "description" | translate }}:
+    </p>
+    <!-- <span
+      class="closeModal_X"
+      (click)="closeform()"
+      title="Close"
+      [style]="direction == 'ar' ? 'right: 10px;top:0px' : 'left:10px;top:0px'"
+    >
+      <i
+        class="bi {{
+          direction == 'en' ? ' bi-arrow-left' : ' bi-arrow-right'
+        }} text-[25px]"
+      ></i
+    ></span> -->
+    <ng-container *ngTemplateOutlet="back_arrow_blue"> </ng-container>
+
+    <ng-template #back_arrow_blue>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_blue'"
+      ></app-svg-component>
+    </ng-template>
+
+    <ng-template #back_arrow_black>
+      <app-svg-component
+        [ngClass]="direction == 'en' ? 'ltr_arrow' : 'rtl_arrow'"
+        (click)="closeform()"
+        title="Close"
+        [svgType]="'back_arrow_black'"
+      ></app-svg-component>
+    </ng-template>
+    <div class="description-content">
+      <div>
+        <p class="font-['Monstrate'] apartment-title ps-8 pt-8 pb-2">
+          {{ agencies_description?.details }}
+        </p>
+        <p class="ps-8 text-[12px] font-['Monstrate'] font-normal pb-2">
+          {{ agencies_description?.address }}
+        </p>
+        <div class="ps-8 pb-2">
+          <div class="inline-block me-2">
+            <app-svg-component
+              [svgType]="'sar_currency_form'"
+            ></app-svg-component>
+          </div>
+          <p class="currency-css font-['Monstrate'] inline-block">
+            {{ agencies_description?.rate }}SAR
+          </p>
+        </div>
+        <div class="ps-8">
+          <p
+            class="font-['Monstrate'] posted-date pe-4"
+            [appDirection]="direction == 'en' ? 'ar' : 'en'"
+          >
+            Posted on {{ agencies_description?.updatedon.split(" ")[0] | date }}
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex font-['Monstrate'] {{
+          direction == 'en' ? 'pl-6' : 'pr-6'
+        }}  font-semibold"
+      >
+        {{ "Deposit amount: " + agencies_description?.deposit + " SAR" }}
+      </div>
+      <div class="flex ps-3">
+        <div>
+          <p class="inline-block pe-5 ps-4 bhk-count-para font-['Monstrate']">
+            {{ agencies_description?.bed }} Beds
+          </p>
+          <div class="inline-block mt-3 me-2">
+            <app-svg-component [svgType]="'bed_svg'"></app-svg-component>
+          </div>
+        </div>
+        <div>
+          <p class="inline-block pe-5 ps-4 bhk-count-para font-['Monstrate']">
+            {{ agencies_description?.bath }} baths
+          </p>
+          <div class="inline-block mt-3 me-2">
+            <app-svg-component [svgType]="'bath_tub'"></app-svg-component>
+          </div>
+        </div>
+        <div>
+          <p class="inline-block pe-5 ps-4 bhk-count-para font-['Monstrate']">
+            {{ agencies_description?.psize }} meter sq
+          </p>
+          <div class="inline-block mt-3 me-2">
+            <app-svg-component [svgType]="'sq_meter_zoom'"></app-svg-component>
+          </div>
+        </div>
+      </div>
+      <div class="ps-4 pt-4">
+        <div>
+          <p
+            class="proper-info-feat-tit me-3 {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "category" | translate }}:
+          </p>
+          <p class="proper-info-feat-resul font-['Monstrate']">
+            {{ agencies_description?.category }}
+          </p>
+        </div>
+        <div>
+          <p
+            class="proper-info-feat-tit me-3 {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "propertytype" | translate }}:
+          </p>
+          <p class="proper-info-feat-resul font-['Monstrate']">
+            Villa {{ agencies_description?.type }}
+          </p>
+        </div>
+        <div>
+          <p
+            class="proper-info-feat-tit me-3 {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "furnishment" | translate }}:
+          </p>
+          <p class="proper-info-feat-resul font-['Monstrate']">
+            Fully furnished {{ agencies_description?.furnished }}
+          </p>
+        </div>
+        <div *ngIf="false">
+          <p class="proper-info-feat-tit me-3 font-['Monstrate']">BHK type:</p>
+          <p class="proper-info-feat-resul">3BHK</p>
+        </div>
+      </div>
+      <div class="ps-7 pt-3">
+        <span class="content-about-villa font-['Monstrate']">
+          {{ agencies_description?.description }}
+        </span>
+      </div>
+      <div class="image-container">
+        <div class="flex p-3 flex-wrap">
+          <ng-container
+            *ngFor="
+              let item of agencies_description['updatedimage'];
+              let i = index;
+              let isLast = last
+            "
+          >
+            <div
+              class="py-2 w-1/4"
+              *ngIf="i < 4"
+              style="position: relative; cursor: pointer"
+              (click)="imageView(agencies_description['updatedimage'], i)"
+            >
+              <img
+                [src]="item"
+                [alt]="item"
+                style="
+                  height: 150px;
+                  width: 180px;
+                  border: 1px solid;
+                  border-radius: 0.3rem;
+                "
+              />
+              <div class="image-blur" *ngIf="i == 3 && !isLast">
+                <p>
+                  +{{ agencies_description["updatedimage"].length - 4 }} more
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="amenities p-5 pb-10 ps-7">
+        <div>
+          <p
+            class="title {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "nearbyAmenities" | translate }}
+          </p>
+        </div>
+        <div>
+          <ng-container
+            *ngFor="let item of this.agencies_description['aminity']"
+          >
+            <div class="inline-block mt-3 me-2 p-5" *ngIf="item.status">
+              <app-svg-component [svgType]="item.svg"></app-svg-component>
+            </div>
+          </ng-container>
+        </div>
+        <div class="pt-5">
+          <p class="title font-['Monstrate']">
+            {{ "nearbyFeatures" | translate }}
+          </p>
+        </div>
+        <div>
+          <ng-container
+            *ngFor="let item of this.agencies_description['nearby']"
+          >
+            <div class="inline-block mt-3 me-2 p-5" *ngIf="item.status">
+              <app-svg-component [svgType]="item.svg"></app-svg-component>
+              <small
+                dir="ltr"
+                class="text-black text-[8px] font-normal font-['Monstrate'] leading-[10px] pt-2"
+                >{{ item.kms
+                }}{{
+                  "
+                                km"
+                }}</small
+              >
+            </div>
+          </ng-container>
+        </div>
+        <div class="pt-5">
+          <p
+            class="title {{
+              direction == 'en' ? 'font-Monstrate' : 'font-Bukrasm'
+            }}"
+          >
+            {{ "location" | translate }}
+          </p>
+        </div>
+        <div>
+          <app-open-layer
+            [latitude_longitude]="agencies_description['latlog']"
+          ></app-open-layer>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #server_ft_bar>
+  <div
+    class="w-[414px] h-[42px] bg-white border border-blue-900 mb-2 flex justify-between"
+  >
+    <div
+      class="w-[50px] h-10 bg-white border-r-[1px] border-l-[1px] border-b-0 border-l-0 border-blue-900 flex justify-center items-center"
+    >
+      <img src="../../../assets/images/filter/Icon.png" alt="" />
+    </div>
+
+    <input
+      type="text"
+      class="border focus:border-transparent focus:outline-none w-[390px] px-2
+      {{
+        direction == 'en' ? 'font-Monstrate' :'font-Bukrareg'
+      }} "
+      #searchft_
+      placeholder="{{ 'search for username , mobile, email' | translate }}"
+      (keyup.enter)="searchft(searchstr)"
+      [(ngModel)]="searchstr"
+    />
+
+    <div
+      (click)="appliedft ? resetgrid() : searchft(searchstr)"
+      [title]="appliedft ? 'clear filter' : 'search'"
+      class="w-[50px] h-10 bg-white border-l-[1px] border-b-0 border-r-[1px] cursor-pointer border-blue-900 flex justify-center items-center"
+    >
+      <i
+        [ngClass]="appliedft ? 'bi bi-x-circle' : 'bi bi-search'"
+        style="font-size: 1.2rem; color: var(--refatheme); font-weight: 500"
+      ></i>
+    </div>
+  </div>
+</ng-template>

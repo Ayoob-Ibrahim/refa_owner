@@ -1,0 +1,303 @@
+button {
+  padding: 5px 10px 5px 10px !important;
+}
+
+.closeModal_X {
+  position: absolute;
+  top: 10px;
+  // right: 25px;
+  font-size: 1rem;
+  z-index: 100;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.req-container-without-scroll {
+  position: relative;
+
+  .rent-request-container {
+    scrollbar-width: thin;
+  }
+
+  .rent-request-container::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+  }
+
+  .rent-request-container::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+  }
+}
+
+.form-header-profile {
+  height: 30vh;
+  margin-top: 11px;
+
+  img {
+    margin-top: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--refatheme);
+    width: 60px;
+    height: 58px;
+    transform: scale(2);
+  }
+
+  .personal-info-card {
+    margin-top: -3%;
+    p {
+      display: inline-block;
+    }
+
+    .personal-info-font {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 18.29px;
+
+      padding: 2px 8px 2px 0px;
+    }
+
+    .personal-info-font-result {
+      // width: 68%;
+      font-size: 13px;
+      font-family: "Monstrate";
+      font-weight: 400;
+      line-height: 18px;
+    }
+  }
+}
+
+.bhk-count-para {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: center;
+}
+
+.form-header {
+  color: var(--refatheme);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 18.29px;
+  // text-align: left;
+}
+
+.payemnt-data-pair {
+  p {
+    display: inline-block;
+  }
+
+  .payment-key {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 15.85px;
+    text-align: left;
+    padding: 0px 8px 4px 8px;
+    color: #000000;
+  }
+
+  .payment-value {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15.85px;
+    text-align: right;
+    color: #000000;
+  }
+}
+
+.property-data-pair {
+  p {
+    display: inline-block;
+  }
+
+  .property-key {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15.85px;
+    text-align: left;
+    padding: 0px 8px 4px 8px;
+    color: #000000;
+  }
+
+  .property-value {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15.85px;
+    text-align: right;
+    color: #000000;
+  }
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid white;
+  text-align: left;
+  padding: 8px;
+}
+
+header {
+  background-color: var(--refatheme);
+
+  p {
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24.38px;
+    text-align: center;
+    color: #dddddd;
+  }
+}
+
+tr {
+  .inner-tt {
+ 
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14.63px;
+    text-align: center;
+  }
+
+  .inner-data {
+
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 13.41px;
+    
+  }
+}
+
+.financial-assessment-form {
+  padding: 0.3rem;
+
+  .financial-assessment-input {
+    font-family: Monstrate;
+    width: 90%;
+    height: 2rem;
+    background-color: #ffffff;
+    border-radius: 0 !important;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0c1892;
+    outline: none;
+    padding-left: 0.5rem;
+  }
+
+  .financial-assessment-input-label {
+    font-size: 12px;
+    color: var(--refatheme);
+    font-weight: 400;
+    line-height: 15.85px;
+    // text-align: left;
+  }
+
+  label {
+    font-size: 12px !important;
+    margin: 0.5rem;
+  }
+}
+
+.class-button {
+  width: 150px !important;
+  height: 35px !important;
+}
+
+.download-btn {
+  border: 1px solid gray;
+  width: 88%;
+  margin-left: 1%;
+  margin-top: 4%;
+  margin-bottom: 3%;
+  height: 30px;
+  background-color: rgba(128, 128, 128, 0.371);
+  border-radius: 0.1rem;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 1%;
+  overflow-y: hidden;
+}
+
+//exisiting grid data container
+
+.rent-container-scroll {
+  height: 80vh;
+  width: 80vw;
+  overflow-y: auto;
+}
+
+.property-information {
+  img {
+    width: 195px;
+    height: 120px;
+    margin-top: 26px;
+    border: 1px solid var(--refatheme);
+  }
+
+  .currency-css {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.5px;
+    text-align: left;
+  }
+
+  p {
+    display: inline-block;
+  }
+
+  .proper-info-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18.29px;
+    // text-align: left;
+    width: 129px;
+  }
+
+  .proper-info-answer {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 15.85px;
+    text-align: left;
+    margin-left: 10px;
+  }
+
+  .propert-info-house-info {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    margin-right: 10px;
+  }
+}
+
+.emi-display {
+  padding-left: 10%;
+  padding-top: 10%;
+  padding-bottom: 2rem;
+  border: #0c1892;
+  background-color: #0c1892;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  color: #ffffff;
+  border-radius: 0.9rem;
+  font-weight: 500;
+}
+.ltr_arrow {
+  cursor: pointer;
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  transform: rotate(0deg);
+}
+.rtl_arrow {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  transform: rotate(180deg);
+  top: 8px;
+}

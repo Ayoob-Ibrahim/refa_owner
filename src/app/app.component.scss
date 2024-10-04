@@ -1,0 +1,31 @@
+.loader {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(farthest-side, #1e3a8a 95%, #0000) 50% 1px/12px
+      12px no-repeat,
+    radial-gradient(farthest-side, #0000 calc(100% - 14px), #ccc 0);
+  animation: l9 1s infinite linear;
+}
+
+@keyframes l9 {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.loaders {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadersEnable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}

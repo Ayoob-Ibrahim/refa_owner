@@ -1,0 +1,232 @@
+button {
+  padding: 5px 10px 5px 10px !important;
+}
+
+.form-header {
+  color: var(--refatheme);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 18.29px;
+  // text-align: left;
+}
+
+.form-header-profile {
+  height: 30vh;
+  margin-top: 17px;
+  img {
+    margin-top: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--refatheme);
+    width: 60px;
+    height: 58px;
+    transform: scale(2);
+  }
+
+  .personal-info-card {
+    margin-top: -3%;
+
+    p {
+      display: inline-block;
+    }
+
+    .personal-info-font {
+      font-size: 14px;
+
+      font-weight: 500;
+      line-height: 18.29px;
+
+      padding: 2px 8px 2px 0px;
+    }
+
+    .personal-info-font-result {
+      font-size: 13px;
+      font-family: "Monstrate";
+      font-weight: 400;
+      line-height: 18px;
+      text-align: left;
+    }
+  }
+}
+
+.req-container-without-scroll {
+  position: relative;
+
+  .rent-request-container {
+    scrollbar-width: thin;
+  }
+
+  .rent-request-container::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+  }
+
+  .rent-request-container::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+  }
+}
+
+.property-information {
+  img {
+    width: 195px;
+    height: 120px;
+    margin-top: 26px;
+    border: 1px solid var(--refatheme);
+  }
+
+  .currency-css {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.5px;
+    text-align: left;
+  }
+
+  p {
+    display: inline-block;
+  }
+
+  .proper-info-feat-tit {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 15.85px;
+    text-align: left;
+    margin-left: 10px;
+  }
+
+  .proper-info-feat-resul {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.63px;
+    text-align: left;
+  }
+
+  .propert-info-house-info {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    margin-right: 10px;
+  }
+}
+
+.proper-info-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18.29px;
+  text-align: left;
+}
+
+.proper-info-amswer {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 15.85px;
+  text-align: left;
+}
+
+.financial-assessment-form {
+  padding: 0.3rem;
+
+  .financial-assessment-input {
+    width: 90%;
+    font-family: Monstrate;
+    height: 2rem;
+    background-color: #ffffff;
+    border-radius: 0 !important;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0c1892;
+    outline: none;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .financial-assessment-input-label {
+    color: var(--refatheme);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 15.85px;
+    // text-align: left;
+    // color: #7ff1d8;
+  }
+
+  label {
+    font-size: 12px !important;
+    margin: 0.5rem;
+  }
+}
+
+.emi-display {
+  // padding-left: 10%;
+  padding-top: 10%;
+  padding-bottom: 2rem;
+  border: #0c1892;
+  background-color: #0c1892;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  color: #ffffff;
+  border-radius: 0.9rem;
+  font-weight: 500;
+}
+
+.class-button {
+  width: 150px !important;
+  height: 35px !important;
+}
+
+.closeModal_X {
+  position: absolute;
+  top: 15px;
+  font-size: 1rem;
+  z-index: 100;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.download-btn {
+  border: 1px solid gray;
+  width: 88%;
+  margin-left: 1%;
+  margin-top: 4%;
+  margin-bottom: 3%;
+  height: 30px;
+  background-color: rgba(128, 128, 128, 0.371);
+  border-radius: 0.1rem;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 1%;
+  overflow-y: hidden;
+}
+
+.radio-class {
+  input[type="radio"] {
+    height: 17px;
+    width: 17px;
+    vertical-align: middle;
+    border: 2px solid #ccc;
+  }
+
+  label {
+    // margin: 5px 10px 0px;
+    margin-left: 9px;
+    margin-right: 10px;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 500 !important;
+    text-transform: none !important;
+  }
+}
+.ltr_arrow {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  cursor: pointer;
+  transform: rotate(0deg);
+}
+.rtl_arrow {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  transform: rotate(180deg);
+  top: 8px;
+}

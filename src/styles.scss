@@ -1,0 +1,187 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "jqwidgets-ng/jqwidgets/styles/jqx.base.css";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import url("https://www.w3schools.com/w3css/4/w3.css");
+@font-face {
+  font-family: "Monstrate";
+  src: url("./assets/fonts/Montserrat-VariableFont_wght.ttf");
+}
+@font-face {
+  font-family: "Bukra";
+  src: url("./assets/fonts/29LT\ Bukra\ Black.otf");
+}
+@font-face {
+  font-family: "Bukra-semi";
+  src: url("./assets/fonts/29LT\ Bukra\ SmBd.ttf");
+}
+@font-face {
+  font-family: "janna-bold";
+  src: url("./assets/fonts/Janna\ LT\ Bold.ttf");
+}
+@font-face {
+  font-family: "Bukra-reg";
+  src: url("./assets/fonts/Janna\ LT\ Bold.ttf");
+}
+
+@font-face {
+  font-family: "khebrat";
+  src: url("./assets/fonts/18KhebratMusamimRegular.ttf");
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+/* You can add global styles to this file, and also import other style files */
+// @import "./app//jqxcss//jqxscss.scss";
+
+@import "app/jqxstyles/jqx.customblue.scss";
+@import "app/jqxstyles/abcd.global.scss";
+
+:root {
+  --refatheme: #0c1892;
+  --fontdc: janna-bold;
+}
+
+button {
+  border: 1px solid var(--refatheme) !important;
+  margin: 30px;
+  color: #0c1892;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10%;
+}
+
+.approve-btn {
+  background-color: #0c1892 !important;
+  color: #ffffff !important;
+  transition: 0.5s ease;
+}
+
+.approve-btn:hover {
+  background: transparent !important;
+  color: #0c1892 !important;
+  border-color: #0c1892 !important;
+}
+
+// heyey
+
+.btn-warning,
+.btn-primary {
+  font-weight: 500 !important;
+  padding: 5px 10px;
+  color: #ffffff;
+  border-radius: 0.3rem;
+  transition: 0.3 ease;
+}
+
+.btn-warning {
+  border: 1px solid #f0ad4e;
+  background: #f0ad4e !important;
+}
+
+.btn-primary {
+  border: 1px solid var(--refatheme);
+  background: var(--refatheme) !important;
+  margin: 0px 20px;
+}
+
+// test
+
+.btnMarginLeft {
+  margin-left: 2rem !important;
+}
+
+.btnBgColorWhite {
+  padding: 0.8rem;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.btn-custom-logout {
+  width: 100px !important;
+  height: 35px;
+  font-size: 15px;
+  text-transform: uppercase;
+  padding: 10%;
+  background-color: white !important;
+  color: #000000;
+}
+
+.font-swt-font-ar {
+  font-family: khebrat;
+}
+
+
+.font-swt-font-en {
+  font-family: Monstrate;
+}
+
+
+.confirm-logout {
+  color: #ffffff;
+  background-color: var(--refatheme) !important;
+}
+
+.swal2-actions {
+  margin-top: 0.4rem !important;
+  height: 65px;
+}
+
+.swal2-actions button {
+  padding: 0.4rem 1rem !important;
+  font-size: 0.85rem !important;
+}
+
+.swal2-validation-message {
+  visibility: hidden !important;
+  height: 0 !important;
+  position: absolute !important;
+}
+
+.btnMarginLeft {
+  margin-left: 2rem !important;
+}
+
+.btnBgColorWhite {
+  padding: 0.8rem;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.sweal-btn {
+  width: 100px;
+  border-radius: 0.3rem;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.custom-container .mat-mdc-dialog-container .mdc-dialog__surface {
+  transition: transform var(--mat-dialog-transition-duration, 0ms) 0ms
+    cubic-bezier(0, 0, 0.2, 1);
+  border-radius: 0.3rem !important;
+}
+.jqx-grid-column-header {
+  font-family: var(--fontdc);
+  font-weight: bold;
+}
+
+.jqx-widget-header {
+  font-family: var(--fontdc);
+  font-weight: bold;
+}
+
+.jqx-grid-cell {
+  font-family: "Monstrate";
+}

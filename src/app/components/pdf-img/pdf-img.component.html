@@ -1,0 +1,57 @@
+<ng-container [ngSwitch]="dt_value['type']">
+    <ng-container *ngSwitchCase="'pdf'">
+        <ng-container *ngTemplateOutlet="pdfblock"> </ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'image_array'">
+        <ng-container *ngTemplateOutlet="image_arr_block"> </ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'image'">
+        <ng-container *ngTemplateOutlet="image_block"> </ng-container>
+    </ng-container>
+</ng-container>
+
+
+
+<ng-template #pdfblock>
+    <div style="width: 800px;position: relative;">
+        <pdf-viewer [src]="this.dt_value['url']" [render-text]="true" [original-size]="false"
+            style="width: 800px; height: 84vh;margin: auto;" (after-load-complete)="pdfloaded($event)"></pdf-viewer>
+        <ng-container *ngTemplateOutlet="span_close"> </ng-container>
+        <div style="position: absolute;top: 0%;" *ngIf="!pdf_block_execution">
+            <ng-container *ngTemplateOutlet="loader_4_pdf"></ng-container>
+        </div>
+    </div>
+</ng-template>
+
+
+
+<ng-template #image_arr_block>
+    <div class="w3-content w3-display-container">
+        <div class="image-div-position">
+            <img [src]="this.dt_value['imagearr'][dt_value.selectedone]" class="image-class">
+            <ng-container *ngTemplateOutlet="span_close"> </ng-container>
+        </div>
+        <button class="w3-button w3-black w3-display-left" (click)="pic_scroll(false)">&#10094;</button>
+        <button class="w3-button w3-black w3-display-right" (click)="pic_scroll(true)">&#10095;</button>
+    </div>
+</ng-template>
+
+
+<ng-template #image_block>
+    <div class="w3-content w3-display-container">
+        <div class="image-div-position">
+            <img [src]="this.dt_value['url']" class="image-class">
+            <ng-container *ngTemplateOutlet="span_close"> </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #span_close>
+    <span class="image-span-position" (click)="closepopup()" title="use esc key to close the popup">X</span>
+</ng-template>
+
+<ng-template #loader_4_pdf>
+    <div>
+        <app-skeleton [skelton_type]="'pdf_loader'"></app-skeleton>
+    </div>
+</ng-template>
